@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<RecipeDef>
+		<defName>CB_DrawBlueprint</defName>
+		<label>draw blueprint</label>
+		<description>Draw up a blueprint from building layout.</description>
+		<jobString>Drawing up a blueprint.</jobString>
+		<workAmount>2000</workAmount>
+		<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+		<effectWorking>ProgressBar</effectWorking>
+		<soundWorking>Designate_Paint</soundWorking>
+		<products>
+			<CB_Blueprint>1</CB_Blueprint>
+		</products>
+		<workSkill>Crafting</workSkill>
+		<displayPriority>0</displayPriority>
+		<unfinishedThingDef>CB_UnfinishedBlueprint</unfinishedThingDef>
+	</RecipeDef>
+
+</Defs>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="BenchBase">
+		<defName>CB_DrawingTableSimple</defName>
+		<label>simple drawing table</label>
+		<description>Just a table with a T-square, scale ruler, triangle ruler, pencil, eraser, eraser shield, and drafting brush. Use to produce blueprints.\nHmmm, This is just barely enough to do the job...</description>
+		<thingClass>CarryableBlueprint.Building_DrawingTable</thingClass>
+		<graphicData>
+			<texPath>CarryableBlueprint/DrawingTable/DrawingTableSimple</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(2,1)</drawSize>
+			<drawOffset>(0,0,0.078125)</drawOffset>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0, 0, 0)</offset>
+			</shadowData>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
+		</graphicData>
+		<costList>
+			<Steel>50</Steel>
+		</costList>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+		</stuffCategories>
+		<costStuffCount>75</costStuffCount>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.5</fillPercent>
+		<useHitPoints>True</useHitPoints>
+		<statBases>
+			<WorkToBuild>1800</WorkToBuild>
+			<MaxHitPoints>120</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+			<Cleanliness>-5</Cleanliness>
+		</statBases>
+		<size>(2,1)</size>
+		<designationCategory>Production</designationCategory>
+		<passability>PassThroughOnly</passability>
+		<pathCost>50</pathCost>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(1,0,-1)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<recipes>
+			<li>CB_DrawBlueprint</li>
+		</recipes>
+		<inspectorTabs>
+			<li>CarryableBlueprint.ITab_DrawingTable</li>
+		</inspectorTabs>
+		<building>
+			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+			<paintable>true</paintable>
+		</building>
+		<comps>
+			<li Class="CompProperties_AffectedByFacilities">
+				<linkableFacilities>
+					<li>ToolCabinet</li>
+				</linkableFacilities>
+			</li>
+		</comps>
+		<designationHotKey>Misc2</designationHotKey>
+		<placeWorkers>
+			<li>PlaceWorker_ShowFacilitiesConnections</li>
+			<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+		</placeWorkers>
+	</ThingDef>
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>CB_Blueprint</defName>
+		<label>blueprint</label>
+		<description>A blueprint that shows a layout plan.</description>
+		<thingClass>ThingWithComps</thingClass>
+		<possessionCount>0</possessionCount>
+		<graphicData>
+			<texPath>CarryableBlueprint/Blueprint</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<stackLimit>1</stackLimit>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<uiIconForStackCount>1</uiIconForStackCount>
+		<soundInteract>Standard_Drop</soundInteract>
+		<soundDrop>Standard_Drop</soundDrop>
+		<statBases>
+			<MaxHitPoints>60</MaxHitPoints>
+			<MarketValue>32</MarketValue>
+			<Mass>0.01</Mass>
+			<Flammability>1</Flammability>
+			<DeteriorationRate>0</DeteriorationRate>
+		</statBases>
+		<intricate>true</intricate>
+		<thingCategories>
+			<li>Manufactured</li>
+		</thingCategories>
+		<comps>
+			<li>
+				<compClass>CarryableBlueprint.CompBlueprint</compClass>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="UnfinishedBase">
+		<defName>CB_UnfinishedBlueprint</defName>
+		<label>unfinished blueprint</label>
+		<description>An unfinished blueprint.</description>
+		<statBases>
+			<Flammability>1</Flammability>
+		</statBases>
+		<graphicData>
+			<texPath>CarryableBlueprint/Blueprint_Unfinished</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<stuffCategories Inherit="false" />
+	</ThingDef>
+	
+</Defs>

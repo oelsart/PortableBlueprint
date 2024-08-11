@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Carryable Blueprint</name>
+  <packageId>oels.carryableblueprintexperimental</packageId>
+  <author>OELS</author>
+  <description>持ち運びできるブループリントとテントを追加します.
+Add carryable a blueprint and a tent.
+</description>
+  <url>https://github.com/oelsart/CarryableBlueprint</url>
+
+  <supportedVersions>
+    <li>1.4</li>
+    <li>1.5</li>
+  </supportedVersions>
+
+  <modDependencies>
+    <li>
+     <packageId>brrainz.harmony</packageId>
+     <displayName>Harmony</displayName>
+     <downloadUrl>https://github.com/pardeike/HarmonyRimWorld</downloadUrl>
+     <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li></li>
+  </loadAfter>
+</ModMetaData>

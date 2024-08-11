@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>*/ThingDef/stuffProps[contains(categories, "Fabric")]</xpath>
+		<value>
+			<appearance>Fabric</appearance>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>*/ThingDef/stuffProps[contains(categories, "Leathery")]</xpath>
+		<value>
+			<appearance>Leathery</appearance>
+		</value>
+	</Operation>
+	
+</Patch>
