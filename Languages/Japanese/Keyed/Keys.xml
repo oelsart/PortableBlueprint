@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <CB.BuildTentRoof>テント張り</CB.BuildTentRoof>
-  <CB.NoTentRoof>テント除去</CB.NoTentRoof>
+  <PB.BuildTentRoof>テント張り</PB.BuildTentRoof>
+  <PB.NoTentRoof>テント除去</PB.NoTentRoof>
   
-  <CB.DesignatorAreaBuildRoofExpand>テント張りゾーン</CB.DesignatorAreaBuildRoofExpand>
-  <CB.DesignatorAreaBuildRoofExpandDesc>入植者がこのゾーンにテントを張ります.</CB.DesignatorAreaBuildRoofExpandDesc>
-  <CB.DesignatorAreaNoTentRoofExpand>テント畳みゾーン</CB.DesignatorAreaNoTentRoofExpand>
-  <CB.DesignatorAreaNoTetRoofExpandDesc>入植者がこのゾーンのテントを畳みます(屋根が元の状態に戻ります).</CB.DesignatorAreaNoTetRoofExpandDesc>
+  <PB.DesignatorAreaBuildRoofExpand>テント張りゾーン</PB.DesignatorAreaBuildRoofExpand>
+  <PB.DesignatorAreaBuildRoofExpandDesc>入植者がこのゾーンにテントを張ります.</PB.DesignatorAreaBuildRoofExpandDesc>
+  <PB.DesignatorAreaNoTentRoofExpand>テント畳みゾーン</PB.DesignatorAreaNoTentRoofExpand>
+  <PB.DesignatorAreaNoTetRoofExpandDesc>入植者がこのゾーンのテントを畳みます(屋根が元の状態に戻ります).</PB.DesignatorAreaNoTetRoofExpandDesc>
   
-  <CB.CommandFlipBuilding>反転</CB.CommandFlipBuilding>
-  <CB.CommandFlipBuildingDesc>この{0}を反転します.</CB.CommandFlipBuildingDesc>
+  <PB.CommandFlipBuilding>反転</PB.CommandFlipBuilding>
+  <PB.CommandFlipBuildingDesc>この{0}を反転します.</PB.CommandFlipBuildingDesc>
   
-  <CB.DesignatorMakeBlueprint>設計図を作成</CB.DesignatorMakeBlueprint>
-  <CB.DesignatorMakeBlueprintDesc>建物のレイアウトを設計図に描き込みます.</CB.DesignatorMakeBlueprintDesc>
-  <CB.IncludeFloors>床を含める</CB.IncludeFloors>
-  <CB.DeconstructOrUninstall>解体または撤去指示を出す</CB.DeconstructOrUninstall>
+  <PB.DesignatorMakeBlueprint>設計図を作成</PB.DesignatorMakeBlueprint>
+  <PB.DesignatorMakeBlueprintDesc>建物のレイアウトを設計図に描き込みます.</PB.DesignatorMakeBlueprintDesc>
+  <PB.IncludeFloors>床を含める</PB.IncludeFloors>
+  <PB.DeconstructOrUninstall>解体または撤去指示を出す</PB.DeconstructOrUninstall>
   
-  <CB.DesignatorPlaceBlueprint>設計図を設置</CB.DesignatorPlaceBlueprint>
-  <CB.DesignatorPlaceBlueprintDesc>レイアウトに描かれた建物の設計図を設置します.</CB.DesignatorPlaceBlueprintDesc>
-  <CB.HoldShiftToFlip>Shiftキーで反転</CB.HoldShiftToFlip>
+  <PB.DesignatorPlaceBlueprint>設計図を設置</PB.DesignatorPlaceBlueprint>
+  <PB.DesignatorPlaceBlueprintDesc>レイアウトに描かれた建物の設計図を設置します.</PB.DesignatorPlaceBlueprintDesc>
+  <PB.HoldShiftToFlip>Shiftキーで反転</PB.HoldShiftToFlip>
   
-  <CB.NameBlueprint>設計図に名前をつける</CB.NameBlueprint>
-  <CB.BlueprintMustBeNamed>設計図に名前をつけてください.</CB.BlueprintMustBeNamed>
+  <PB.NameBlueprint>設計図に名前をつける</PB.NameBlueprint>
+  <PB.BlueprintMustBeNamed>設計図に名前をつけてください.</PB.BlueprintMustBeNamed>
 </LanguageData>

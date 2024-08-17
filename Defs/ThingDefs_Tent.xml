@@ -2,18 +2,18 @@
 <Defs>
 
 	<ThingDef ParentName="BuildingBase">
-		<defName>CB_TentWall</defName>
+		<defName>PB_TentWall</defName>
 		<label>tent wall</label>
 		<description>An impassable tent wall. Tent poles need to be built as this is not enough to support the tent.</description>
 		<thingClass>Building</thingClass>
 		<category>Building</category>
-		<minifiedDef>CB_MinifiedThing_Stackable</minifiedDef>
+		<minifiedDef>PB_MinifiedThing_Stackable</minifiedDef>
 		<thingCategories>
 			<li>Buildings</li>
 		</thingCategories>
 		<graphicData>
-			<texPath>CarryableBlueprint/TentWall/TentWall_Atlas</texPath>
-			<graphicClass>CarryableBlueprint.Tent.Graphic_Tent</graphicClass>
+			<texPath>PortableBlueprint/TentWall/TentWall_Atlas</texPath>
+			<graphicClass>PortableBlueprint.Tent.Graphic_Tent</graphicClass>
 			<linkFlags>
 				<li>Custom1</li>
 			</linkFlags>
@@ -28,25 +28,25 @@
 				<edgeRight>Damage/Edge</edgeRight>
 			</damageData>
 		</graphicData>
-		<uiIconPath>CarryableBlueprint/TentWall/TentWallFabric_MenuIcon</uiIconPath>
+		<uiIconPath>PortableBlueprint/TentWall/TentWallFabric_MenuIcon</uiIconPath>
 		<uiIconPathsStuff>
 			<li>
 				<appearance>Fabric</appearance>
-				<iconPath>CarryableBlueprint/TentWall/TentWallFabric_MenuIcon</iconPath>
+				<iconPath>PortableBlueprint/TentWall/TentWallFabric_MenuIcon</iconPath>
 			</li>
 			<li>
 				<appearance>Leathery</appearance>
-				<iconPath>CarryableBlueprint/TentWall/TentWallLeathery_MenuIcon</iconPath>
+				<iconPath>PortableBlueprint/TentWall/TentWallLeathery_MenuIcon</iconPath>
 			</li>
 		</uiIconPathsStuff>
 		<statBases>
 			<MaxHitPoints>75</MaxHitPoints>
 			<WorkToBuild>50</WorkToBuild>
-			<Mass>0.4</Mass>
+			<Mass>0.6</Mass>
 			<Flammability>1.0</Flammability>
 			<MeditationFocusStrength>0.22</MeditationFocusStrength>
 		</statBases>
-		<costStuffCount>20</costStuffCount>
+		<costStuffCount>10</costStuffCount>
 		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
 		<altitudeLayer>Building</altitudeLayer>
 		<passability>Impassable</passability>
@@ -58,11 +58,11 @@
 		<tickerType>Never</tickerType>
 		<rotatable>false</rotatable>
 		<selectable>true</selectable>
-		<neverMultiSelect>false</neverMultiSelect>
+		<neverMultiSelect>true</neverMultiSelect>
 		<useStuffTerrainAffordance>true</useStuffTerrainAffordance>
 		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
 		<holdsRoof>false</holdsRoof>
-		<designationCategory>Structure</designationCategory>
+		<designationCategory>Furniture</designationCategory>
 		<uiOrder>8000</uiOrder>
 		<staticSunShadowHeight>1.0</staticSunShadowHeight>
 		<blockLight>true</blockLight>
@@ -79,7 +79,7 @@
 			<ai_chillDestination>false</ai_chillDestination>
 			<supportsWallAttachments>false</supportsWallAttachments>
 			<blueprintGraphicData>
-				<texPath>CarryableBlueprint/TentWall/TentWall_Blueprint</texPath>
+				<texPath>PortableBlueprint/TentWall/TentWall_Blueprint</texPath>
 				<graphicClass>Graphic_Single</graphicClass>
 			</blueprintGraphicData>
 			<relatedBuildCommands>
@@ -105,24 +105,24 @@
 			</li>
 		</damageMultipliers>
 		<modExtensions>
-			<li Class="CarryableBlueprint.Tent.TentParts">
+			<li Class="PortableBlueprint.Tent.TentParts">
 				<filthAcceptanceMask>Any</filthAcceptanceMask>
 			</li>
 		</modExtensions>
 	</ThingDef>
 
 	<ThingDef ParentName="BuildingBase">
-		<defName>CB_TentPole</defName>
+		<defName>PB_TentPole</defName>
 		<label>tent pole</label>
 		<description>A pole that can be used to pitch a tent within its range. It cannot support any other roof.</description>
 		<thingClass>Building</thingClass>
 		<category>Building</category>
-		<minifiedDef>CB_MinifiedThing_Stackable</minifiedDef>
+		<minifiedDef>PB_MinifiedThing_Stackable</minifiedDef>
 		<thingCategories>
 			<li>Buildings</li>
 		</thingCategories>
 		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
-		<designationCategory>Structure</designationCategory>
+		<designationCategory>Furniture</designationCategory>
 		<uiOrder>8001</uiOrder>
 		<altitudeLayer>Building</altitudeLayer>
 		<passability>PassThroughOnly</passability>
@@ -145,13 +145,14 @@
 		<specialDisplayRadius>6.9</specialDisplayRadius>
 		<building>
 			<isInert>true</isInert>
+			<isPlaceOverableWall>true</isPlaceOverableWall>
 			<ai_chillDestination>false</ai_chillDestination>
 			<paintable>true</paintable>
 		</building>
 		<graphicData>
 			<drawSize>(1.6,1.3)</drawSize>
 			<drawOffset>(0,0,0.6)</drawOffset>
-			<texPath>CarryableBlueprint/TentPole</texPath>
+			<texPath>PortableBlueprint/TentPole</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 			<shadowData>
 				<volume>(0.1, 2, 0.1)</volume>
@@ -163,22 +164,23 @@
 		</graphicData>
 		<comps>
 			<li>
-				<compClass>CarryableBlueprint.Tent.TentPoleComp</compClass>
+				<compClass>PortableBlueprint.Tent.TentPoleComp</compClass>
 			</li>
 		</comps>
 		<modExtensions>
-			<li Class="CarryableBlueprint.Tent.TentParts">
+			<li Class="PortableBlueprint.Tent.TentParts">
 				<filthAcceptanceMask>Any</filthAcceptanceMask>
 			</li>
 		</modExtensions>
 	</ThingDef>
 
 	<ThingDef Name="TentDoor" ParentName="DoorBase">
-		<defName>CB_TentDoor</defName>
+		<defName>PB_TentDoor</defName>
 		<label>tent door</label>
 		<description>A door to divide the inside of a tent from the outside.</description>
-		<thingClass>CarryableBlueprint.Tent.Building_TentDoor</thingClass>
-		<minifiedDef>CB_MinifiedThing_Stackable</minifiedDef>
+		<thingClass>PortableBlueprint.Tent.Building_TentDoor</thingClass>
+		<category>Building</category>
+		<minifiedDef>PB_MinifiedThing_Stackable</minifiedDef>
 		<thingCategories>
 			<li>Buildings</li>
 		</thingCategories>
@@ -186,11 +188,11 @@
 		<statBases>
 			<MaxHitPoints>75</MaxHitPoints>
 			<WorkToBuild>100</WorkToBuild>
-			<Mass>0.4</Mass>
+			<Mass>0.6</Mass>
 			<Flammability>1.0</Flammability>
 		</statBases>
 		<graphicData>
-			<texPath>CarryableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Fabric</texPath>
+			<texPath>PortableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Fabric</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 			<linkFlags>
 				<li>Custom1</li>
@@ -204,33 +206,34 @@
 			<li>Leathery</li>
 		</stuffCategories>
 		<uiOrder>8002</uiOrder>
-		<uiIconPath>CarryableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Fabric</uiIconPath>
+		<uiIconPath>PortableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Fabric</uiIconPath>
 		<uiIconPathsStuff>
 			<li>
 				<appearance>Fabric</appearance>
-				<iconPath>CarryableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Fabric</iconPath>
+				<iconPath>PortableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Fabric</iconPath>
 			</li>
 			<li>
 				<appearance>Leathery</appearance>
-				<iconPath>CarryableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Leathery</iconPath>
+				<iconPath>PortableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Leathery</iconPath>
 			</li>
 		</uiIconPathsStuff>
-		<costStuffCount>30</costStuffCount>
-		<designationHotKey>Misc1</designationHotKey>
+		<costStuffCount>15</costStuffCount>
 		<useStuffTerrainAffordance>true</useStuffTerrainAffordance>
 		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+		<designationCategory>Furniture</designationCategory>
 		<drawerType>MapMeshAndRealTime</drawerType>
 		<building>
+			<isPlaceOverableWall>true</isPlaceOverableWall>
 			<blueprintGraphicData>
-				<texPath>CarryableBlueprint/TentDoor/TentDoor_Blueprint</texPath>
+				<texPath>PortableBlueprint/TentDoor/TentDoor_Blueprint</texPath>
 				<graphicClass>Graphic_Single</graphicClass>
 			</blueprintGraphicData>
 		</building>
 		<modExtensions>
-			<li Class="CarryableBlueprint.Tent.TentDoorGraphics">
+			<li Class="PortableBlueprint.Tent.TentDoorGraphics">
 				<graphicDataTop>
-					<texPath>CarryableBlueprint/TentDoor/TentDoor_Top_Atlas</texPath>
-					<graphicClass>CarryableBlueprint.Tent.Graphic_Tent</graphicClass>
+					<texPath>PortableBlueprint/TentDoor/TentDoor_Top_Atlas</texPath>
+					<graphicClass>PortableBlueprint.Tent.Graphic_Tent</graphicClass>
 					<linkType>7</linkType>
 					<damageData>
 						<enabled>false</enabled>
@@ -238,16 +241,16 @@
 				</graphicDataTop>
 				<graphicDataMover>
 					<li>
-						<texPath>CarryableBlueprint/TentDoor/TentDoor_Mover1_Atlas</texPath>
-						<graphicClass>CarryableBlueprint.Tent.Graphic_Tent</graphicClass>
+						<texPath>PortableBlueprint/TentDoor/TentDoor_Mover1_Atlas</texPath>
+						<graphicClass>PortableBlueprint.Tent.Graphic_Tent</graphicClass>
 						<linkType>7</linkType>
 						<damageData>
 							<enabled>false</enabled>
 						</damageData>
 					</li>
 					<li>
-						<texPath>CarryableBlueprint/TentDoor/TentDoor_Mover2_Atlas</texPath>
-						<graphicClass>CarryableBlueprint.Tent.Graphic_Tent</graphicClass>
+						<texPath>PortableBlueprint/TentDoor/TentDoor_Mover2_Atlas</texPath>
+						<graphicClass>PortableBlueprint.Tent.Graphic_Tent</graphicClass>
 						<linkType>7</linkType>
 						<damageData>
 							<enabled>false</enabled>
@@ -255,24 +258,24 @@
 					</li>
 				</graphicDataMover>
 			</li>
-			<li Class="CarryableBlueprint.Tent.TentParts">
+			<li Class="PortableBlueprint.Tent.TentParts">
 				<filthAcceptanceMask>Any</filthAcceptanceMask>
 			</li>
 		</modExtensions>
 	</ThingDef>
 
 	<ThingDef ParentName="BuildingBase">
-		<defName>CB_TentFloor</defName>
+		<defName>PB_TentFloor</defName>
 		<label>tent floor</label>
 		<description>A mat to be placed inside the tent. It can prevent darting by the ground.</description>
 		<thingClass>Building</thingClass>
 		<category>Building</category>
-		<minifiedDef>CB_MinifiedThing_StackableMany</minifiedDef>
+		<minifiedDef>PB_MinifiedThing_StackableMany</minifiedDef>
 		<thingCategories>
 			<li>Buildings</li>
 		</thingCategories>
 		<graphicData>
-			<texPath>CarryableBlueprint/TentFloor</texPath>
+			<texPath>PortableBlueprint/TentFloor</texPath>
 			<graphicClass>Graphic_Terrain</graphicClass>
 			<damageData>
 				<cornerTL>Damage/Corner</cornerTL>
@@ -288,10 +291,10 @@
 		<statBases>
 			<MaxHitPoints>50</MaxHitPoints>
 			<WorkToBuild>20</WorkToBuild>
-			<Mass>0.2</Mass>
+			<Mass>0.4</Mass>
 			<Flammability>1.0</Flammability>
 		</statBases>
-		<costStuffCount>10</costStuffCount>
+		<costStuffCount>5</costStuffCount>
 		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
 		<altitudeLayer>FloorEmplacement</altitudeLayer>
 		<passability>Standable</passability>
@@ -303,14 +306,14 @@
 		<tickerType>Never</tickerType>
 		<rotatable>false</rotatable>
 		<selectable>true</selectable>
-		<neverMultiSelect>false</neverMultiSelect>
+		<neverMultiSelect>true</neverMultiSelect>
 		<useStuffTerrainAffordance>true</useStuffTerrainAffordance>
 		<terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
 		<holdsRoof>false</holdsRoof>
-		<designationCategory>Structure</designationCategory>
+		<designationCategory>Furniture</designationCategory>
 		<uiOrder>8003</uiOrder>
 		<blockLight>false</blockLight>
-		<canOverlapZones>false</canOverlapZones>
+		<canOverlapZones>true</canOverlapZones>
 		<fertility>0</fertility>
 		<wipesPlants>true</wipesPlants>
 		<stuffCategories>
@@ -320,7 +323,6 @@
 		<building>
 			<paintable>true</paintable>
 			<isInert>true</isInert>
-			<isPlaceOverableWall>true</isPlaceOverableWall>
 			<isEdifice>false</isEdifice>
 			<ai_chillDestination>false</ai_chillDestination>
 			<supportsWallAttachments>false</supportsWallAttachments>
@@ -341,10 +343,10 @@
 			</li>
 		</damageMultipliers>
 		<placeWorkers>
-			<li>CarryableBlueprint.Tent.PlaceWorker_TentFloor</li>
+			<li>PortableBlueprint.Tent.PlaceWorker_TentFloor</li>
 		</placeWorkers>
 		<modExtensions>
-			<li Class="CarryableBlueprint.Tent.TentParts">
+			<li Class="PortableBlueprint.Tent.TentParts">
 				<filthAcceptanceMask>Any</filthAcceptanceMask>
 			</li>
 		</modExtensions>

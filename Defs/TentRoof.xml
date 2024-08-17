@@ -2,7 +2,7 @@
 <Defs>
 
   <RoofDef>
-    <defName>CB_TentRoof</defName>
+    <defName>PB_TentRoof</defName>
     <label>tent roof</label>
     <isThickRoof>false</isThickRoof>
     <soundPunchThrough>BuildingDestroyed_Soft_Small</soundPunchThrough>

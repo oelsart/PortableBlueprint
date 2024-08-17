@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-	<ThingDef ParentName="BenchBase">
-		<defName>CB_DrawingTableSimple</defName>
+	<ThingDef ParentName="BenchBase" Name="PB_DrawingTable">
+		<defName>PB_DrawingTableSimple</defName>
 		<label>simple drawing table</label>
 		<description>Just a table with a T-square, scale ruler, triangle ruler, pencil, eraser, eraser shield, and drafting brush. Use to produce blueprints.\nHmmm, This is just barely enough to do the job...</description>
-		<thingClass>CarryableBlueprint.Building_DrawingTable</thingClass>
+		<thingClass>PortableBlueprint.Building_DrawingTable</thingClass>
+		<thingCategories>
+			<li>Buildings</li>
+		</thingCategories>
 		<graphicData>
-			<texPath>CarryableBlueprint/DrawingTable/DrawingTableSimple</texPath>
+			<texPath>PortableBlueprint/DrawingTable/DrawingTableSimple</texPath>
 			<graphicClass>Graphic_Multi</graphicClass>
 			<shaderType>CutoutComplex</shaderType>
-			<drawSize>(2,1)</drawSize>
-			<drawOffset>(0,0,0.078125)</drawOffset>
+			<drawSize>(2.15,1.15)</drawSize>
+			<drawOffset>(0,0,-0.15)</drawOffset>
 			<shadowData>
-				<volume>(0.3, 0.6, 0.3)</volume>
-				<offset>(0, 0, 0)</offset>
+				<volume>(1.8, 0.6, 0.75)</volume>
+				<offset>(0, 0, -0.35)</offset>
 			</shadowData>
 			<damageData>
 				<cornerTL>Damage/Corner</cornerTL>
@@ -39,6 +42,7 @@
 			<MaxHitPoints>120</MaxHitPoints>
 			<Flammability>1.0</Flammability>
 			<Cleanliness>-5</Cleanliness>
+			<WorkTableWorkSpeedFactor>1</WorkTableWorkSpeedFactor>
 		</statBases>
 		<size>(2,1)</size>
 		<designationCategory>Production</designationCategory>
@@ -48,10 +52,13 @@
 		<interactionCellOffset>(1,0,-1)</interactionCellOffset>
 		<surfaceType>Item</surfaceType>
 		<recipes>
-			<li>CB_DrawBlueprint</li>
+			<li>PB_DrawBlueprint</li>
 		</recipes>
+		<researchPrerequisites>
+			<li>ComplexFurniture</li>
+		</researchPrerequisites>
 		<inspectorTabs>
-			<li>CarryableBlueprint.ITab_DrawingTable</li>
+			<li>PortableBlueprint.ITab_DrawingTable</li>
 		</inspectorTabs>
 		<building>
 			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
@@ -64,21 +71,66 @@
 				</linkableFacilities>
 			</li>
 		</comps>
-		<designationHotKey>Misc2</designationHotKey>
 		<placeWorkers>
 			<li>PlaceWorker_ShowFacilitiesConnections</li>
 			<li>PlaceWorker_PreventInteractionSpotOverlap</li>
 		</placeWorkers>
+		<modExtensions>
+			<li Class="PortableBlueprint.FlippableBuildingExtension">
+				<hasFlatSurface>true</hasFlatSurface>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<ThingDef ParentName="PB_DrawingTable">
+		<defName>PB_DrawingTableProfessional</defName>
+		<label>professional drawing table</label>
+		<description>Professional drawing table for architectural design. It has supported architectures of mankind in the MidWorld until CAD was invented.\nExtremely useful!</description>
+		<graphicData>
+			<texPath>PortableBlueprint/DrawingTable/DrawingTableProfessional</texPath>
+			<drawSize>(3,2)</drawSize>
+			<drawOffset>(0,0,0.5)</drawOffset>
+			<drawOffsetNorth>(0,0,0.15)</drawOffsetNorth>
+			<shadowData>
+				<volume>(1.68, 0.9, 0.9)</volume>
+				<offset>(0, 0, -0.25)</offset>
+			</shadowData>
+		</graphicData>
+		<costList>
+			<Steel>75</Steel>
+			<ComponentIndustrial>3</ComponentIndustrial>
+		</costList>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+		</stuffCategories>
+		<costStuffCount>100</costStuffCount>
+		<statBases>
+			<WorkToBuild>3600</WorkToBuild>
+			<MaxHitPoints>180</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+			<Cleanliness>-5</Cleanliness>
+			<WorkTableWorkSpeedFactor>1.5</WorkTableWorkSpeedFactor>
+		</statBases>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<researchPrerequisites>
+			<li>MicroelectronicsBasics</li>
+		</researchPrerequisites>
+		<modExtensions>
+			<li Class="PortableBlueprint.FlippableBuildingExtension">
+				<hasFlatSurface>false</hasFlatSurface>
+			</li>
+		</modExtensions>
 	</ThingDef>
 
 	<ThingDef ParentName="ResourceBase">
-		<defName>CB_Blueprint</defName>
+		<defName>PB_Blueprint</defName>
 		<label>blueprint</label>
 		<description>A blueprint that shows a layout plan.</description>
 		<thingClass>ThingWithComps</thingClass>
 		<possessionCount>0</possessionCount>
 		<graphicData>
-			<texPath>CarryableBlueprint/Blueprint</texPath>
+			<texPath>PortableBlueprint/Blueprint</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
 		<stackLimit>1</stackLimit>
@@ -88,7 +140,7 @@
 		<soundDrop>Standard_Drop</soundDrop>
 		<statBases>
 			<MaxHitPoints>60</MaxHitPoints>
-			<MarketValue>32</MarketValue>
+			<MarketValue>0</MarketValue>
 			<Mass>0.01</Mass>
 			<Flammability>1</Flammability>
 			<DeteriorationRate>0</DeteriorationRate>
@@ -97,22 +149,23 @@
 		<thingCategories>
 			<li>Manufactured</li>
 		</thingCategories>
+		<tradeNeverStack>true</tradeNeverStack>
 		<comps>
 			<li>
-				<compClass>CarryableBlueprint.CompBlueprint</compClass>
+				<compClass>PortableBlueprint.CompBlueprint</compClass>
 			</li>
 		</comps>
 	</ThingDef>
 
 	<ThingDef ParentName="UnfinishedBase">
-		<defName>CB_UnfinishedBlueprint</defName>
+		<defName>PB_UnfinishedBlueprint</defName>
 		<label>unfinished blueprint</label>
 		<description>An unfinished blueprint.</description>
 		<statBases>
 			<Flammability>1</Flammability>
 		</statBases>
 		<graphicData>
-			<texPath>CarryableBlueprint/Blueprint_Unfinished</texPath>
+			<texPath>PortableBlueprint/Blueprint_Unfinished</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
 		<stuffCategories Inherit="false" />

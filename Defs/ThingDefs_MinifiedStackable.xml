@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-	<ThingDef Name="CB_MinifiedThing_Stackable" ParentName="MinifiedThing">
-		<defName>CB_MinifiedThing_Stackable</defName>
-		<thingClass>CarryableBlueprint.MinifiedThing_Stackable</thingClass>
+	<ThingDef Name="PB_MinifiedThing_Stackable" ParentName="MinifiedThing">
+		<defName>PB_MinifiedThing_Stackable</defName>
+		<thingClass>PortableBlueprint.MinifiedThing_Stackable</thingClass>
 		<stackLimit>10</stackLimit>
 		<drawGUIOverlay>true</drawGUIOverlay>
 		<statBases>
@@ -11,9 +11,9 @@
 		</statBases>
 	</ThingDef>
 	
-	<ThingDef ParentName="CB_MinifiedThing_Stackable">
-		<defName>CB_MinifiedThing_StackableMany</defName>
-		<stackLimit>30</stackLimit>
+	<ThingDef ParentName="PB_MinifiedThing_Stackable">
+		<defName>PB_MinifiedThing_StackableMany</defName>
+		<stackLimit>20</stackLimit>
 	</ThingDef>
 	
 </Defs>

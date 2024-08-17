@@ -2,14 +2,14 @@
 <Patch>
 	
 	<Operation Class="PatchOperationAdd">
-		<xpath>*/ThingDef/stuffProps[contains(categories, "Fabric")]</xpath>
+		<xpath>/Defs/ThingDef/stuffProps[contains(categories, "Fabric")]</xpath>
 		<value>
 			<appearance>Fabric</appearance>
 		</value>
 	</Operation>
 	
 	<Operation Class="PatchOperationAdd">
-		<xpath>*/ThingDef/stuffProps[contains(categories, "Leathery")]</xpath>
+		<xpath>/Defs/ThingDef/stuffProps[contains(categories, "Leathery")]</xpath>
 		<value>
 			<appearance>Leathery</appearance>
 		</value>

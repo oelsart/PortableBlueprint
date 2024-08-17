@@ -2,15 +2,15 @@
 <Defs>
 
   <JobDef>
-    <defName>CB_BuildTentRoof</defName>
-    <driverClass>CarryableBlueprint.Tent.JobDriver_BuildTentRoof</driverClass>
+    <defName>PB_BuildTentRoof</defName>
+    <driverClass>PortableBlueprint.Tent.JobDriver_BuildTentRoof</driverClass>
     <reportString>pitching tent.</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
   
   <JobDef>
-    <defName>CB_RemoveTentRoof</defName>
-    <driverClass>CarryableBlueprint.Tent.JobDriver_RemoveTentRoof</driverClass>
+    <defName>PB_RemoveTentRoof</defName>
+    <driverClass>PortableBlueprint.Tent.JobDriver_RemoveTentRoof</driverClass>
     <reportString>folding up tent.</reportString>
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>

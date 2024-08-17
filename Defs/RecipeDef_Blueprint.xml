@@ -2,20 +2,29 @@
 <Defs>
 
 	<RecipeDef>
-		<defName>CB_DrawBlueprint</defName>
+		<defName>PB_DrawBlueprint</defName>
 		<label>draw blueprint</label>
 		<description>Draw up a blueprint from building layout.</description>
 		<jobString>Drawing up a blueprint.</jobString>
-		<workAmount>2000</workAmount>
+		<workAmount>6000</workAmount>
 		<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
-		<effectWorking>ProgressBar</effectWorking>
 		<soundWorking>Designate_Paint</soundWorking>
 		<products>
-			<CB_Blueprint>1</CB_Blueprint>
+			<PB_Blueprint>1</PB_Blueprint>
 		</products>
 		<workSkill>Crafting</workSkill>
 		<displayPriority>0</displayPriority>
-		<unfinishedThingDef>CB_UnfinishedBlueprint</unfinishedThingDef>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>WoodLog</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<unfinishedThingDef>PB_UnfinishedBlueprint</unfinishedThingDef>
 	</RecipeDef>
 
 </Defs>

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-  <CB.BuildTentRoof>Pitch tent</CB.BuildTentRoof>
-  <CB.NoTentRoof>Fold up tent</CB.NoTentRoof>
+  <PB.BuildTentRoof>Pitch tent</PB.BuildTentRoof>
+  <PB.NoTentRoof>Fold up tent</PB.NoTentRoof>
   
-  <CB.DesignatorAreaBuildRoofExpand>Pitch tent area</CB.DesignatorAreaBuildRoofExpand>
-  <CB.DesignatorAreaBuildRoofExpandDesc>Colonists will pitch tents in this area.</CB.DesignatorAreaBuildRoofExpandDesc>
-  <CB.DesignatorAreaNoTentRoofExpand>Fold up tent area</CB.DesignatorAreaNoTentRoofExpand>
-  <CB.DesignatorAreaNoTetRoofExpandDesc>Colonists will Fold up tents in this area (Roofs will return to pre-tenting state).</CB.DesignatorAreaNoTetRoofExpandDesc>
+  <PB.DesignatorAreaBuildRoofExpand>Pitch tent area</PB.DesignatorAreaBuildRoofExpand>
+  <PB.DesignatorAreaBuildRoofExpandDesc>Colonists will pitch tents in this area.</PB.DesignatorAreaBuildRoofExpandDesc>
+  <PB.DesignatorAreaNoTentRoofExpand>Fold up tent area</PB.DesignatorAreaNoTentRoofExpand>
+  <PB.DesignatorAreaNoTetRoofExpandDesc>Colonists will Fold up tents in this area (Roofs will return to pre-tenting state).</PB.DesignatorAreaNoTetRoofExpandDesc>
   
-  <CB.CommandFlipBuilding>Flip building</CB.CommandFlipBuilding>
-  <CB.CommandFlipBuildingDesc>Flip this {0}.</CB.CommandFlipBuildingDesc>
+  <PB.CommandFlipBuilding>Flip building</PB.CommandFlipBuilding>
+  <PB.CommandFlipBuildingDesc>Flip this {0}.</PB.CommandFlipBuildingDesc>
   
-  <CB.DesignatorMakeBlueprint>Make blueprint</CB.DesignatorMakeBlueprint>
-  <CB.DesignatorMakeBlueprintDesc>Draw the building layout on the blueprint.</CB.DesignatorMakeBlueprintDesc>
-  <CB.IncludeFloors>Include floors</CB.IncludeFloors>
-  <CB.DeconstructOrUninstall>Add designation of deconstruct or uninstall</CB.DeconstructOrUninstall>
+  <PB.DesignatorMakeBlueprint>Make blueprint</PB.DesignatorMakeBlueprint>
+  <PB.DesignatorMakeBlueprintDesc>Draw the building layout on the blueprint.</PB.DesignatorMakeBlueprintDesc>
+  <PB.IncludeFloors>Include floors</PB.IncludeFloors>
+  <PB.DeconstructOrUninstall>Add designation of deconstruct or uninstall</PB.DeconstructOrUninstall>
   
-  <CB.DesignatorPlaceBlueprint>Place blueprint</CB.DesignatorPlaceBlueprint>
-  <CB.DesignatorPlaceBlueprintDesc>Place blueprints drawn on the layout.</CB.DesignatorPlaceBlueprintDesc>
-  <CB.HoldShiftToFlip>Hold Shift To Flip</CB.HoldShiftToFlip>
+  <PB.DesignatorPlaceBlueprint>Place blueprint</PB.DesignatorPlaceBlueprint>
+  <PB.DesignatorPlaceBlueprintDesc>Place blueprints drawn on the layout.</PB.DesignatorPlaceBlueprintDesc>
+  <PB.HoldShiftToFlip>Hold Shift To Flip</PB.HoldShiftToFlip>
   
-  <CB.NameBlueprint>Name this blueprint</CB.NameBlueprint>
-  <CB.BlueprintMustBeNamed>Blueprint Must Be Named.</CB.BlueprintMustBeNamed>
+  <PB.NameBlueprint>Name this blueprint</PB.NameBlueprint>
+  <PB.BlueprintMustBeNamed>Blueprint Must Be Named.</PB.BlueprintMustBeNamed>
 </LanguageData>

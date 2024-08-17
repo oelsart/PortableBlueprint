@@ -2,9 +2,9 @@
 
 <Patch>
     <Operation Class="PatchOperationAdd">
-        <xpath>/Defs/DesignationCategoryDef[defName="Orders"]/specialDesignatorClasses</xpath>
+        <xpath>/Defs/DesignationCategoryDef[defName="Orders" or defName="Production" or defName="Furniture" or defName="Security" or defName="Misc" or defName="Joy"]/specialDesignatorClasses</xpath>
         <value>
-            <li>CarryableBlueprint.Designator_UninstallMulti</li>
+            <li>PortableBlueprint.Designator_UninstallMulti</li>
         </value>
     </Operation>
 </Patch>

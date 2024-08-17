@@ -2,9 +2,9 @@
 <Defs>
 
     <WorkGiverDef>
-    <defName>CB_BuildTentRoofs</defName>
+    <defName>PB_BuildTentRoofs</defName>
     <label>pitch tents</label>
-    <giverClass>CarryableBlueprint.Tent.WorkGiver_BuildTentRoof</giverClass>
+    <giverClass>PortableBlueprint.Tent.WorkGiver_BuildTentRoof</giverClass>
     <workType>Construction</workType>
     <priorityInType>100</priorityInType>
     <verb>pitch tent</verb>
@@ -17,9 +17,9 @@
     </WorkGiverDef>
 
     <WorkGiverDef>
-    <defName>CB_RemoveTentRoofs</defName>
+    <defName>PB_RemoveTentRoofs</defName>
     <label>fold up tents</label>
-    <giverClass>CarryableBlueprint.Tent.WorkGiver_RemoveTentRoof</giverClass>
+    <giverClass>PortableBlueprint.Tent.WorkGiver_RemoveTentRoof</giverClass>
     <workType>Construction</workType>
     <priorityInType>90</priorityInType>
     <verb>fold up tent</verb>
@@ -32,13 +32,14 @@
     </WorkGiverDef>
 
 	<WorkGiverDef>
-		<defName>CB_DoBillsDrawingBlueprint</defName>
+		<defName>PB_DoBillsDrawingBlueprint</defName>
 		<label>draw blueprint</label>
 		<giverClass>WorkGiver_DoBill</giverClass>
 		<workType>Crafting</workType>
 		<priorityInType>100</priorityInType>
 		<fixedBillGiverDefs>
-			<li>CB_DrawingTableSimple</li>
+			<li>PB_DrawingTableSimple</li>
+			<li>PB_DrawingTableProfessional</li>
 		</fixedBillGiverDefs>
 		<verb>draw</verb>
 		<gerund>drawing at</gerund>
