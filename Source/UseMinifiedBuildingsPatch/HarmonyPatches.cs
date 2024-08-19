@@ -15,7 +15,7 @@ namespace PortableBlueprint.UseMinifiedBuildingsPatch
     {
         static HarmonyPatches()
         {
-            var harmony = new Harmony("com.harmony.rimworld.Portableblueprint.useminifiedbuildingspatch");
+            var harmony = new Harmony("com.harmony.rimworld.portableblueprint.useminifiedbuildingspatch");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }

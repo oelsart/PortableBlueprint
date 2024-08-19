@@ -6,17 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableBlueprint", "PortableBlueprint.csproj", "{93C059A6-6B0F-42EE-B894-3A7F31DD9082}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{F97F29A4-2EE8-4643-A800-A25F152E9A71}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\Defs\RecipeDef_Blueprint.xml = ..\..\Defs\RecipeDef_Blueprint.xml
-		..\..\Patches\StuffAppearancePatch.xml = ..\..\Patches\StuffAppearancePatch.xml
-		..\..\Defs\StuffAppearances.xml = ..\..\Defs\StuffAppearances.xml
-		..\..\Defs\ThingDefs_Blueprint.xml = ..\..\Defs\ThingDefs_Blueprint.xml
-		..\..\Defs\ThingDefs_MinifiedStackable.xml = ..\..\Defs\ThingDefs_MinifiedStackable.xml
-		..\..\Defs\ThingDefs_Tent.xml = ..\..\Defs\ThingDefs_Tent.xml
-		..\..\Defs\WorkGivers.xml = ..\..\Defs\WorkGivers.xml
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseMinifiedBuildingsPatch", "..\UseMinifiedBuildingsPatch\UseMinifiedBuildingsPatch.csproj", "{41D32591-FC2A-4F06-ACF2-D52FFFC92762}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenseOfDepthPatch", "..\SenseOfDepthPatch\SenseOfDepthPatch.csproj", "{0650FC69-A298-4464-9C9E-40F0DEA4ACB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +25,10 @@ Global
 		{41D32591-FC2A-4F06-ACF2-D52FFFC92762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41D32591-FC2A-4F06-ACF2-D52FFFC92762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41D32591-FC2A-4F06-ACF2-D52FFFC92762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0650FC69-A298-4464-9C9E-40F0DEA4ACB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0650FC69-A298-4464-9C9E-40F0DEA4ACB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0650FC69-A298-4464-9C9E-40F0DEA4ACB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0650FC69-A298-4464-9C9E-40F0DEA4ACB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

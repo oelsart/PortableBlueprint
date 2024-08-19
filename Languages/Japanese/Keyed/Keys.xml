@@ -22,4 +22,10 @@
   
   <PB.NameBlueprint>設計図に名前をつける</PB.NameBlueprint>
   <PB.BlueprintMustBeNamed>設計図に名前をつけてください.</PB.BlueprintMustBeNamed>
+  
+  <PB.RenameBlueprint>リネーム</PB.RenameBlueprint>
+  
+  <PB.Quotation.Buildings>建物</PB.Quotation.Buildings>
+  <PB.Quotation.Floors>床</PB.Quotation.Floors>
+  <PB.Quotation.TotalCost>総コスト</PB.Quotation.TotalCost>
 </LanguageData>

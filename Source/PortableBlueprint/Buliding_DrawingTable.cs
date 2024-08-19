@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -101,13 +100,25 @@ namespace PortableBlueprint
 
         public override void Print(SectionLayer layer)
         {
-            base.Print(layer);
             var rot = this.Rotation;
             if (this.Flipped && rot.IsHorizontal && (this.def.GetModExtension<FlippableBuildingExtension>()?.hasFlatSurface ?? false))
             {
                 rot = rot.Opposite;
             }
-            ReversePatch_Graphic_Print.Print(this.Graphic, layer, this, 0f, rot, this.Flipped);
+            this.PrintWithOverrideRotFlip(layer, rot, this.Flipped);
+
+            foreach (var comp in this.AllComps)
+            {
+                if (comp.GetType().Name != "CompBackSideLayer")
+                {
+                    comp.PostPrintOnto(layer);
+                }
+            }
+        }
+
+        private void PrintWithOverrideRotFlip(SectionLayer layer, Rot4 overrideRot, bool overrideFlipFlag)
+        {
+            ReversePatch_Graphic_Print.Print(this.Graphic, layer, this, 0f, overrideRot, this.Flipped);
         }
 
         public override void ExposeData()
@@ -121,8 +132,6 @@ namespace PortableBlueprint
         private static readonly FastInvokeHandler DrawInteractionCell = MethodInvoker.GetHandler(AccessTools.Method(typeof(GenDraw), "DrawInteractionCell"));
 
         public Designator_MakeBlueprint makeBlueprintDes;
-
-        private static FastInvokeHandler PrintCompFXGraphic;
     }
 
     [HarmonyPatch(typeof(Graphic), "Print")]

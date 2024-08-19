@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <PB_BlueprintPaper.label>設計図</PB_BlueprintPaper.label>
+  <PB_BlueprintPaper.description>建物の配置図を描いた設計図です.</PB_BlueprintPaper.description>
+  
+  <PB_BlueprintUnfinished.label>描きかけの設計図</PB_BlueprintUnfinished.label>
+  <PB_BlueprintUnfinished.description>描きかけの設計図です.</PB_BlueprintUnfinished.description>
+  
+</LanguageData>

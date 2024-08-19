@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<PB_DrawingTableSimple.label>製図台</PB_DrawingTableSimple.label>
+	<PB_DrawingTableSimple.description>T定規, 三角スケール, 三角定規, 鉛筆, 消しゴム, 消しゴム用テンプレート, 製図用ブラシが載ったただの机です. 設計図を描くために使用されます.\n\nうーん、まあ最低限仕事はできるか……</PB_DrawingTableSimple.description>
+	
+	<PB_DrawingTableProfessional.label>ドラフター</PB_DrawingTableProfessional.label>
+	<PB_DrawingTableProfessional.description>建築設計用の本格的なドラフターです. CADが発明されるまでのMidWorldでは人類の建築を支えてきました.\n\nとても使いやすい！</PB_DrawingTableProfessional.description>
+	
+</LanguageData>

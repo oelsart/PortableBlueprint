@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <WorkGiverDef>
+    <defName>PB_BuildTentRoofs</defName>
+    <label>pitch tents</label>
+    <giverClass>PortableBlueprint.Tent.WorkGiver_BuildTentRoof</giverClass>
+    <workType>Construction</workType>
+    <priorityInType>100</priorityInType>
+    <verb>pitch tent</verb>
+    <gerund>pitching tent</gerund>
+    <scanThings>false</scanThings>
+    <scanCells>true</scanCells>
+    <requiredCapacities>
+        <li>Manipulation</li>
+    </requiredCapacities>
+    </WorkGiverDef>
+
+    <WorkGiverDef>
+    <defName>PB_RemoveTentRoofs</defName>
+    <label>fold up tents</label>
+    <giverClass>PortableBlueprint.Tent.WorkGiver_RemoveTentRoof</giverClass>
+    <workType>Construction</workType>
+    <priorityInType>90</priorityInType>
+    <verb>fold up tent</verb>
+    <gerund>folding up tent</gerund>
+    <scanThings>false</scanThings>
+    <scanCells>true</scanCells>
+    <requiredCapacities>
+        <li>Manipulation</li>
+    </requiredCapacities>
+    </WorkGiverDef>
+
+	<WorkGiverDef>
+		<defName>PB_DoBillsDrawingBlueprint</defName>
+		<label>draw blueprint</label>
+		<giverClass>WorkGiver_DoBill</giverClass>
+		<workType>Crafting</workType>
+		<priorityInType>100</priorityInType>
+		<fixedBillGiverDefs>
+			<li>PB_DrawingTableSimple</li>
+			<li>PB_DrawingTableProfessional</li>
+		</fixedBillGiverDefs>
+		<verb>draw blueprint</verb>
+		<gerund>drawing blueprint at</gerund>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<prioritizeSustains>true</prioritizeSustains>
+	</WorkGiverDef>
+
+</Defs>

@@ -7,7 +7,17 @@ namespace PortableBlueprint
 {
     public class CompBlueprint : ThingComp
     {
-        public string BlueprintName => this.blueprintName;
+        public string BlueprintName
+        {
+            get
+            {
+                return this.blueprintName;
+            }
+            set
+            {
+                this.blueprintName = value;
+            }
+        }
 
         public List<BuildingLayout> BuildingLayoutList => this.buildingLayoutList;
 
@@ -22,7 +32,7 @@ namespace PortableBlueprint
                 var text = "";
                 if (!buildingList.EnumerableNullOrEmpty())
                 {
-                    text += "Buildings:\n";
+                    text += "PB.Quotation.Buildings".Translate() + ":\n";
                     foreach (var building in buildingList)
                     {
                         text += $" -{building.Key.LabelCap} {building.Count()}\n";
@@ -32,7 +42,7 @@ namespace PortableBlueprint
 
                 if (!floorList.EnumerableNullOrEmpty())
                 {
-                    text += "Floors:\n";
+                    text += "PB.Quotation.Floors".Translate() + ":\n";
                     foreach (var floor in floorList)
                     {
                         text += $" -{floor.Key.LabelCap} {floor.Count()}\n";
@@ -40,7 +50,7 @@ namespace PortableBlueprint
                     text += "\n";
                 }
 
-                text += "TotalCost:\n";
+                text += "PB.Quotation.TotalCost".Translate() + ":\n";
                 foreach (var cost in this.TotalCost)
                 {
                     text += $" -{cost.thingDef.LabelCap} {cost.count}\n";
@@ -65,7 +75,7 @@ namespace PortableBlueprint
         }
         public override string TransformLabel(string label)
         {
-            return label + " " + this.BlueprintName;
+            return label + ": " + this.BlueprintName;
         }
         public override string CompTipStringExtra()
         {
@@ -91,6 +101,7 @@ namespace PortableBlueprint
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             yield return new Designator_PlaceBlueprint(this);
+            yield return new Command_RenameBlueprint(this);
         }
 
         public override void PostExposeData()
@@ -100,8 +111,6 @@ namespace PortableBlueprint
             Scribe_Collections.Look(ref this.floorLayoutList, "floorLayout", LookMode.Deep);
             Scribe_Values.Look(ref this.blueprintName, "blueprintName");
         }
-
-        public void DrawInLayout(List<BuildingLayout> layoutList) => this.buildingLayoutList = layoutList;
 
         private string blueprintName;
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<PB_TentWall.label>テント幕</PB_TentWall.label>
+	<PB_TentWall.description>通り抜けできないテント幕です. これだけではテントを支えるには不十分なので, テントポールを立てる必要があります.</PB_TentWall.description>
+	
+	<PB_TentPole.label>テントポール</PB_TentPole.label>
+	<PB_TentPole.description>範囲内にテントを張るために使うポールです. その他の屋根を支えることはできません.</PB_TentPole.description>
+	
+	<PB_TentFlap.label>テント出入口</PB_TentFlap.label>
+	<PB_TentFlap.description>厚く折り重なった一枚の織物を吊り下げた出入口です. テントの内側を外と区切るために使われます.</PB_TentFlap.description>
+	
+	<PB_TentFloor.label>テントマット</PB_TentFloor.label>
+	<PB_TentFloor.description>テント内に敷かれるマットです. 地面による泥汚れを防ぎます.</PB_TentFloor.description>
+	
+</LanguageData>

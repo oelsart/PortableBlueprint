@@ -16,13 +16,13 @@ namespace PortableBlueprint.Tent
                 {
                     if (this.def.GetModExtension<TentDoorGraphics>().graphicDataTop == null)
                     {
-                        Log.Error("Tent door must have modExtensions: TentDoorGraphics.");
+                        Log.Error("Tent flap must have modExtensions: TentDoorGraphics.");
                         return null;
                     }
                     this.topGraphic = this.def.GetModExtension<TentDoorGraphics>().graphicDataTop.GraphicColoredFor(this) as Graphic_LinkedTent;
                     if (this.topGraphic == null) 
                     {
-                        Log.Error("Tent door must have graphicClass: Graphic_Tent.");
+                        Log.Error("Tent flap must have graphicClass: Graphic_Tent.");
                     }
                 }
                 return this.topGraphic;
@@ -37,7 +37,7 @@ namespace PortableBlueprint.Tent
                 {
                     if (this.def.GetModExtension<TentDoorGraphics>().graphicDataMover == null)
                     {
-                        Log.Error("Tent door must have modExtensions: TentDoorGraphics.");
+                        Log.Error("Tent flap must have modExtensions: TentDoorGraphics.");
                         return null;
                     }
                     this.moverGraphic = new Graphic_LinkedTent[] {
@@ -46,7 +46,7 @@ namespace PortableBlueprint.Tent
                     };
                     if (this.moverGraphic.Any(g => g == null))
                     {
-                        Log.Error("Tent door must have graphicClass: Graphic_Tent.");
+                        Log.Error("Tent flap must have graphicClass: Graphic_Tent.");
                     }
                 }
                 return this.moverGraphic;

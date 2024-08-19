@@ -16,7 +16,7 @@ namespace PortableBlueprint.PB_HarmonyPatch
     {
         static HarmonyPatches()
         {
-            var harmony = new Harmony("com.harmony.rimworld.Portableblueprint");
+            var harmony = new Harmony("com.harmony.rimworld.portableblueprint");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             Patch_PlayDataLoader_HotReloadDefs.Postfix();
             if (ModsConfig.IsActive("dhultgren.useminifiedbuildings"))

@@ -17,7 +17,7 @@ namespace PortableBlueprint
 
         public static ThingDef PB_TentFloor;
 
-        public static ThingDef PB_Blueprint;
+        public static ThingDef PB_BlueprintPaper;
 
         public static StuffAppearanceDef Fabric;
 

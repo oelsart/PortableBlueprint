@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+	<PB_BuildTentRoofs.label>テントを張る</PB_BuildTentRoofs.label>
+	<PB_BuildTentRoofs.verb>テント張り</PB_BuildTentRoofs.verb>
+	<PB_BuildTentRoofs.gerund>にテントを張る</PB_BuildTentRoofs.gerund>
+	
+	<PB_RemoveTentRoofs.label>テントの取り外し</PB_RemoveTentRoofs.label>
+	<PB_RemoveTentRoofs.verb>テントの取り外し</PB_RemoveTentRoofs.verb>
+	<PB_RemoveTentRoofs.gerund>のテントを畳む</PB_RemoveTentRoofs.gerund>
+	
+	<PB_DoBillsDrawingBlueprint.label>製図</PB_DoBillsDrawingBlueprint.label>
+	<PB_DoBillsDrawingBlueprint.verb>製図</PB_DoBillsDrawingBlueprint.verb>
+	<PB_DoBillsDrawingBlueprint.gerund>で設計図を描く</PB_DoBillsDrawingBlueprint.gerund>
+	
+</LanguageData>

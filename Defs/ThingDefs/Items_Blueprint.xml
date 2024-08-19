@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>PB_BlueprintPaper</defName>
+		<label>blueprint</label>
+		<description>A blueprint that shows a layout plan.</description>
+		<possessionCount>2</possessionCount>
+		<graphicData>
+			<texPath>PortableBlueprint/Blueprint</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<stackLimit>1</stackLimit>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<uiIconForStackCount>1</uiIconForStackCount>
+		<soundInteract>Standard_Drop</soundInteract>
+		<soundDrop>Standard_Drop</soundDrop>
+		<statBases>
+			<MaxHitPoints>60</MaxHitPoints>
+			<MarketValue>0</MarketValue>
+			<Mass>0.01</Mass>
+			<Flammability>1</Flammability>
+			<DeteriorationRate>0</DeteriorationRate>
+		</statBases>
+		<thingCategories>
+			<li>Manufactured</li>
+		</thingCategories>
+		<tradeNeverStack>true</tradeNeverStack>
+		<comps>
+			<li>
+				<compClass>PortableBlueprint.CompBlueprint</compClass>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="UnfinishedBase">
+		<defName>PB_BlueprintUnfinished</defName>
+		<label>unfinished blueprint</label>
+		<description>An unfinished blueprint.</description>
+		<statBases>
+			<Flammability>1</Flammability>
+		</statBases>
+		<graphicData>
+			<texPath>PortableBlueprint/Blueprint_Unfinished</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<stuffCategories Inherit="false" />
+	</ThingDef>
+	
+</Defs>

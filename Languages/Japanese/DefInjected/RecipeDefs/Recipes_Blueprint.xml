@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<PB_DrawBlueprint.label>設計図を描く</PB_DrawBlueprint.label>
+	<PB_DrawBlueprint.description>建物のレイアウトから設計図を描き起こします.</PB_DrawBlueprint.description>
+	<PB_DrawBlueprint.jobString>設計図を描いている.</PB_DrawBlueprint.jobString>
+
+</LanguageData>

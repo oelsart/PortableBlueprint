@@ -12,13 +12,6 @@ namespace PortableBlueprint.PB_HarmonyPatch
     [HarmonyPatch(typeof(AutoBuildRoofAreaSetter), "TryGenerateAreaNow")]
     public static class Patch_AutoBuildRoofAreaSetter_TryGenerateAreaNow
     {
-        delegate bool Any(IntVec3 c);
-
-        static Any ContainsTentPole(Map map)
-        {
-            return c => c.GetEdifice(map)?.HasComp<TentPoleComp>() ?? false;
-        }
-
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             var codes = instructions.ToList();

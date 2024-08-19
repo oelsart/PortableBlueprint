@@ -19,13 +19,11 @@ namespace PortableBlueprint.PB_HarmonyPatches
 
         private Dictionary<TransferableOneWay, bool> collapse = new Dictionary<TransferableOneWay, bool>();
 
-        private Dictionary<TransferableOneWay, Dictionary<TransferableOneWay, int>> cachedThresholds = new Dictionary<TransferableOneWay, Dictionary<TransferableOneWay, int>>();
+        private Dictionary<TransferableOneWay, List<ThingDefCountClass>> cachedThresholds = new Dictionary<TransferableOneWay, List<ThingDefCountClass>>();
 
         private Dictionary<TransferableOneWay, Dictionary<TransferableOneWay, int>> cachedMassThresholds = new Dictionary<TransferableOneWay, Dictionary<TransferableOneWay, int>>();
 
         private Dictionary<TransferableOneWay, Dictionary<TransferableOneWay, bool>> cachedReachedThreshold = new Dictionary<TransferableOneWay, Dictionary<TransferableOneWay, bool>>();
-
-        private List<TransferableOneWay> transferables;
 
         private TransferableOneWayWidget itemsTransfer;
 
@@ -36,6 +34,8 @@ namespace PortableBlueprint.PB_HarmonyPatches
         private float availableMass;
 
         private float extraViewRectHeight = 0f;
+
+        private bool recacheRequest;
 
         private static ExtraGUIFormCaravan instance;
 
@@ -50,7 +50,6 @@ namespace PortableBlueprint.PB_HarmonyPatches
             {
                 ExtraGUIFormCaravan.instance = new ExtraGUIFormCaravan
                 {
-                    transferables = transferables,
                     itemsTransfer = itemsTransfer,
                     travelSuppliesTransfer = travelSuppliesTransfer
                 };
@@ -58,7 +57,6 @@ namespace PortableBlueprint.PB_HarmonyPatches
                 {
                     ExtraGUIFormCaravan.instance.itemsTransfer = new TransferableOneWayWidget(transferables, null, null, null, false, IgnorePawnsInventoryMode.Ignore, false, availableMassGetter);
                 }
-                Log.Message($"{itemsTransfer}, {travelSuppliesTransfer}, {transferables.Count}");
 
                 bool _ = false;
                 if (travelSuppliesTransfer != null && Find.WindowStack.TryGetWindow<Dialog_FormCaravan>(out var dialog))
@@ -83,15 +81,11 @@ namespace PortableBlueprint.PB_HarmonyPatches
                     }).OrderBy(m => m.AnyThing.LabelNoParenthesis);
                     ExtraGUIFormCaravan.instance.relatedThingList[blueprint] = minifiedList.ConcatIfNotNull(tradList).ToList();
                     ExtraGUIFormCaravan.instance.totalCostList[blueprint] = totalCost;
+                    ExtraGUIFormCaravan.instance.cachedThresholds[blueprint] = totalCost.ToList();
 
                     ExtraGUIFormCaravan.instance.availableMass = (availableMassGetter != null) ? availableMassGetter() : float.MaxValue;
                     ExtraGUIFormCaravan.instance.cachedReachedThreshold[blueprint] = new Dictionary<TransferableOneWay, bool>();
-                    ExtraGUIFormCaravan.instance.cachedThresholds[blueprint] = new Dictionary<TransferableOneWay, int>();
                     ExtraGUIFormCaravan.instance.cachedMassThresholds[blueprint] = new Dictionary<TransferableOneWay, int>();
-                    foreach (var trad in ExtraGUIFormCaravan.instance.relatedThingList[blueprint])
-                    {
-                        ExtraGUIFormCaravan.instance.cachedThresholds[blueprint][trad] = ExtraGUIFormCaravan.GetThreshold(blueprint, trad);
-                    }
                 }
 
                 ExtraGUIFormCaravan.ReCacheThresholds();
@@ -102,8 +96,7 @@ namespace PortableBlueprint.PB_HarmonyPatches
         {
             foreach (var blueprint in ExtraGUIFormCaravan.instance.relatedThingList.Select(t => t.Key))
             {
-                ExtraGUIFormCaravan.instance.cachedReachedThreshold[blueprint][blueprint] = ReachedThreshold(null, blueprint);
-                foreach (var trad in ExtraGUIFormCaravan.instance.relatedThingList[blueprint])
+                foreach (var trad in ExtraGUIFormCaravan.instance.relatedThingList[blueprint].Reverse<TransferableOneWay>())
                 {
                     var widget = ExtraGUIFormCaravan.WidgetSelect(trad);
                     ExtraGUIFormCaravan.instance.cachedReachedThreshold[blueprint][trad] = ReachedThreshold(blueprint, trad);
@@ -111,7 +104,38 @@ namespace PortableBlueprint.PB_HarmonyPatches
                     var massThreshold = (num <= 0f) ? 0 : Mathf.FloorToInt(num / (float)GetMass(widget, trad.AnyThing));
                     ExtraGUIFormCaravan.instance.cachedMassThresholds[blueprint][trad] = massThreshold;
                 }
+                ExtraGUIFormCaravan.instance.cachedReachedThreshold[blueprint][blueprint] = ReachedThreshold(null, blueprint);
             }
+            ExtraGUIFormCaravan.instance.recacheRequest = false;
+        }
+
+        private static bool ReachedThreshold(TransferableOneWay blueprint, TransferableOneWay trad)
+        {
+            if (trad.AnyThing == null) return false;
+
+            if (trad.AnyThing.HasComp<CompBlueprint>())
+            {
+                return ExtraGUIFormCaravan.instance.cachedThresholds[trad].All(t =>
+                {
+                    var minified = ExtraGUIFormCaravan.instance.relatedThingList[trad].Where(r => r.AnyThing.GetInnerIfMinified()?.CostListAdjusted().Any(c => c.thingDef == t.thingDef) ?? false);
+                    if (!minified.EnumerableNullOrEmpty() && minified.All(m => ReachedThreshold(trad, m))) return true;
+                    var trad2 = ExtraGUIFormCaravan.instance.relatedThingList[trad].FirstOrDefault(r => r.ThingDef == t.thingDef);
+                    if (trad2 == null) return false;
+                    return ReachedThreshold(trad, trad2);
+                });
+            }
+
+            var minifiedThing = trad.AnyThing as MinifiedThing;
+            if (minifiedThing != null)
+            {
+                return minifiedThing.InnerThing.CostListAdjusted().All(c =>
+                {
+                    var trad2 = ExtraGUIFormCaravan.instance.relatedThingList[blueprint].FirstOrDefault(t => c.thingDef == t.ThingDef);
+                    return trad2 != null && ExtraGUIFormCaravan.instance.cachedReachedThreshold[blueprint][trad2];
+                }) || trad.CountToTransfer >= blueprint.AnyThing.TryGetComp<CompBlueprint>().BuildingLayoutList.Count(b => b.def == minifiedThing.InnerThing.def);
+            }
+            var threshold = ExtraGUIFormCaravan.instance.cachedThresholds[blueprint].FirstOrDefault(t => t.thingDef == trad.ThingDef);
+            return (threshold != null && trad.CountToTransfer >= threshold.count);
         }
 
         [HarmonyPatch(typeof(Dialog_LoadTransporters), "CalculateAndRecacheTransferables")]
@@ -123,7 +147,7 @@ namespace PortableBlueprint.PB_HarmonyPatches
         [HarmonyPatch(typeof(TransferableOneWayWidget), "FillMainRect")]
         public static class Patch_TransferableOneWayWidget_FillMainRect
         {
-            [HarmonyReversePatch(HarmonyReversePatchType.Snapshot)]
+            [HarmonyReversePatch(HarmonyReversePatchType.Original)]
             public static void Original(TransferableOneWayWidget instance, Rect mainRect, out bool anythingChanged) => throw new NotImplementedException();
 
             public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
@@ -172,7 +196,7 @@ namespace PortableBlueprint.PB_HarmonyPatches
                     CodeInstruction.LoadLocal(9),
                     new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(List<TransferableOneWay>), "Item")),
                     new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(TransferableOneWay), nameof(TransferableOneWay.ThingDef))),
-                    CodeInstruction.LoadField(typeof(PB_DefOf), nameof(PB_DefOf.PB_Blueprint)),
+                    CodeInstruction.LoadField(typeof(PB_DefOf), nameof(PB_DefOf.PB_BlueprintPaper)),
                     CodeInstruction.Call(typeof(object), nameof(Equals), new Type[] { typeof(object), typeof(object) }),
                     new CodeInstruction(OpCodes.Brfalse_S, label),
                     CodeInstruction.LoadLocal(1, true),
@@ -189,6 +213,7 @@ namespace PortableBlueprint.PB_HarmonyPatches
         {
             ExtraGUIFormCaravan.instance.currentWidget = instance;
             ExtraGUIFormCaravan.instance.availableMass = availableMass;
+            if (ExtraGUIFormCaravan.instance.recacheRequest) ExtraGUIFormCaravan.ReCacheThresholds();
             var collapse = ExtraGUIFormCaravan.instance.collapse;
             if (!collapse.ContainsKey(blueprint))
             {
@@ -207,7 +232,6 @@ namespace PortableBlueprint.PB_HarmonyPatches
 
             indent += 15f;
             var relatedThings = ExtraGUIFormCaravan.instance.relatedThingList[blueprint];
-            var allReached = true;
             foreach (var trad in relatedThings)
             {
                 var reached = ExtraGUIFormCaravan.instance.cachedReachedThreshold[blueprint][trad];
@@ -217,13 +241,12 @@ namespace PortableBlueprint.PB_HarmonyPatches
                 else
                 {
                     GUI.color = Color.red;
-                    allReached = false;
                 }
                 if (!collapse[blueprint])
                 {
                     curY += 30f;
                     var widget = ExtraGUIFormCaravan.WidgetSelect(trad);
-                    var threshold = ExtraGUIFormCaravan.instance.cachedThresholds[blueprint][trad];
+                    var threshold = ExtraGUIFormCaravan.instance.cachedThresholds[blueprint].FirstOrDefault(t => t.thingDef == trad.ThingDef)?.count ?? 0;
                     if (trad.CountToTransfer == threshold) threshold = ExtraGUIFormCaravan.instance.cachedMassThresholds[blueprint][trad];
                     var countToTransfer = trad.CountToTransfer;
                     ReversePatch_TransferableOneWayWidget_DoRow.DoRow(widget, new Rect(indent, curY, rect.width - indent, 30f), trad, 1, availableMass, threshold);
@@ -240,43 +263,11 @@ namespace PortableBlueprint.PB_HarmonyPatches
             }
             else
             {
-                GUI.color = allReached ? Color.green : Color.red;
+                GUI.color = ExtraGUIFormCaravan.instance.cachedReachedThreshold[blueprint][blueprint] ? Color.green : Color.red;
                 ReversePatch_TransferableOneWayWidget_DoRow.DoRow(instance, blueprintRect, blueprint, 1, availableMass, 0);
             }
             GUI.color = Color.white;
             ExtraGUIFormCaravan.instance.currentWidget = null;
-        }
-
-        public static int GetThreshold(TransferableOneWay blueprint, TransferableOneWay trad)
-        {
-            MinifiedThing minifiedThing;
-            var costList = ExtraGUIFormCaravan.instance.totalCostList[blueprint];
-            if ((minifiedThing = trad.AnyThing as MinifiedThing) != null)
-            {
-                return blueprint.AnyThing.TryGetComp<CompBlueprint>().BuildingLayoutList.Where(b => b.def == minifiedThing.InnerThing.def).Count();
-            }
-            return costList.First(c => c.thingDef == trad.ThingDef).count;
-        }
-
-        private static bool ReachedThreshold(TransferableOneWay blueprint, TransferableOneWay trad)
-        {
-            if (trad.AnyThing == null) return false;
-
-            if (trad.AnyThing.HasComp<CompBlueprint>())
-            {
-                return ExtraGUIFormCaravan.instance.relatedThingList[trad].All(t => ReachedThreshold(trad, t));
-            }
-
-            var minifiedThing = trad.AnyThing as MinifiedThing;
-            if (minifiedThing != null)
-            {
-                return minifiedThing.InnerThing.CostListAdjusted().All(c =>
-                {
-                    var trad2 = ExtraGUIFormCaravan.instance.transferables.FirstOrDefault(t => c.thingDef == t.ThingDef);
-                    return trad2 != null && ReachedThreshold(blueprint, trad2);
-                }) || trad.CountToTransfer >= ExtraGUIFormCaravan.instance.cachedThresholds[blueprint][trad];
-            }
-            return trad.CountToTransfer >= ExtraGUIFormCaravan.instance.cachedThresholds[blueprint][trad];
         }
 
         private static TransferableOneWayWidget WidgetSelect(TransferableOneWay trad)
@@ -333,10 +324,12 @@ namespace PortableBlueprint.PB_HarmonyPatches
         [HarmonyPatch(typeof(Transferable), nameof(Transferable.AdjustTo))]
         public static class Patch_Transferable_AdjustTo
         {
-            public static void Prefix(Transferable __instance, int destination)
+            public static void Prefix(Transferable __instance, int destination, ref bool __state)
             {
                 var transferableOneWay = __instance as TransferableOneWay;
-                if (ExtraGUIFormCaravan.instance == null || ExtraGUIFormCaravan.instance.currentWidget == null || transferableOneWay == null) return;
+                if (ExtraGUIFormCaravan.instance == null) return;
+                ExtraGUIFormCaravan.instance.recacheRequest = true;
+                if (ExtraGUIFormCaravan.instance.currentWidget == null || transferableOneWay == null) return;
                 var adjustment = destination - transferableOneWay.CountToTransfer;
                 if (adjustment == 0) return;
 
@@ -347,8 +340,22 @@ namespace PortableBlueprint.PB_HarmonyPatches
                     {
                         foreach (var transferable in relatedThing)
                         {
-                            var threshold = ExtraGUIFormCaravan.instance.cachedThresholds[transferableOneWay][transferable];
-                            transferable.AdjustTo(transferable.ClampAmount(threshold));
+                            if (transferable.AnyThing is MinifiedThing minifiedThing)
+                            {
+                                var count = transferableOneWay.AnyThing.TryGetComp<CompBlueprint>().BuildingLayoutList.Count(b => b.def == minifiedThing.InnerThing.def);
+                                if (count != 0)
+                                {
+                                    transferable.AdjustTo(transferable.ClampAmount(count));
+                                }
+                            }
+                            else
+                            {
+                                var threshold = ExtraGUIFormCaravan.instance.cachedThresholds[transferableOneWay].FirstOrDefault(t => t.thingDef == transferable.ThingDef);
+                                if (threshold != null)
+                                {
+                                    transferable.AdjustTo(transferable.ClampAmount(threshold.count));
+                                }
+                            }
                         }
                         ExtraGUIFormCaravan.instance.collapse[transferableOneWay] = false;
                     }
@@ -385,28 +392,15 @@ namespace PortableBlueprint.PB_HarmonyPatches
                     {
                         foreach (var cost in minifiedCostList)
                         {
-                            var trad = thresholds.Value.Select(t => t.Key).FirstOrDefault(t => t.ThingDef == cost.thingDef);
-                            if (trad != null)
+                            var threshold = ExtraGUIFormCaravan.instance.cachedThresholds[thresholds.Key].FirstOrDefault(t => t.thingDef == cost.thingDef);
+                            if (threshold != null)
                             {
-                                ExtraGUIFormCaravan.instance.cachedThresholds[thresholds.Key][trad] -= cost.count * adjustment;
+                                threshold.count -= cost.count * adjustment;
                             }
                         }
                     }
                 }
             }
-
-            public static void Postfix(Transferable __instance)
-            {
-                var transferableOneWay = __instance as TransferableOneWay;
-                if (ExtraGUIFormCaravan.instance == null || ExtraGUIFormCaravan.instance.currentWidget == null || transferableOneWay == null) return;
-                ExtraGUIFormCaravan.ReCacheThresholds();
-            }
-        }
-
-        [HarmonyPatch(typeof(Window), nameof(Window.PostClose))]
-        public static class Patch_Window_PostClose
-        {
-            public static void Postfix() => ExtraGUIFormCaravan.instance = null;
         }
     }
 }

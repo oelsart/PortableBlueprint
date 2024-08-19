@@ -1,6 +1,4 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -21,6 +19,16 @@ namespace PortableBlueprint.Tent
             {
                 this.subGraphics[i] = GraphicDatabase.Get<Graphic_Appearances>(req.path + Graphic_Tent.suffixes[i], req.shader, req.drawSize, req.color, Color.white, req.graphicData);
             }
+        }
+
+        public override Material MatSingleFor(Thing thing)
+        {
+            var subGraphic = this.SubGraphicFor(thing);
+            if (subGraphic == null)
+            {
+                subGraphic = this.SubGraphicFor(PB_DefOf.Fabric);
+            }
+            return subGraphic.MatSingleFor(thing);
         }
 
         public override void Print(SectionLayer layer, Thing thing, float extraRotation)

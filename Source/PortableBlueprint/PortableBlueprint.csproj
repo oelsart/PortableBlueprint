@@ -78,6 +78,7 @@
     <Compile Include="Bill_Blueprint.cs" />
     <Compile Include="BuildingLayout.cs" />
     <Compile Include="Buliding_DrawingTable.cs" />
+    <Compile Include="Command_RenameBlueprint.cs" />
     <Compile Include="FlippableBuildingExtension.cs" />
     <Compile Include="PB_HarmonyPatches\PatchForTentWall.cs" />
     <Compile Include="PortableBlueprint.cs" />
@@ -100,7 +101,7 @@
     <Compile Include="Tent\Building_TentDoor.cs" />
     <Compile Include="Tent\PlaceWorker_TentFloor.cs" />
     <Compile Include="Tent\TentDoorGraphics.cs" />
-    <Compile Include="Tent\TentParts.cs" />
+    <Compile Include="Tent\TentFloorExtension.cs" />
     <Compile Include="Tent\TentRoof\Area_BuildTentRoof.cs" />
     <Compile Include="Tent\TentRoof\Area_NoTentRoof.cs" />
     <Compile Include="Tent\TentPoleComp.cs" />
@@ -118,6 +119,5 @@
     <Compile Include="Tent\TentRoof\WorkGiver_RemoveTentRoof.cs" />
     <Compile Include="UI_MakeBlueprint.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

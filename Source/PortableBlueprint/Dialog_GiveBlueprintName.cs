@@ -12,6 +12,19 @@ namespace PortableBlueprint
 
         public override Vector2 InitialSize => new Vector2(500f, 150f);
 
+        public Dialog_GiveBlueprintName(CompBlueprint comp, Action<string> Named) : base()
+        {
+            this.forcePause = true;
+            this.closeOnAccept = false;
+            this.closeOnCancel = false;
+            this.absorbInputAroundWindow = true;
+
+            this.Named = Named;
+            this.nameMessageKey = "PB.NameBlueprint".Translate();
+            this.invalidNameMessageKey = "PB.BlueprintMustBeNamed".Translate();
+            this.curName = comp.BlueprintName;
+        }
+
         public Dialog_GiveBlueprintName(Building_DrawingTable drawingTable, IntVec3 pos, Action<string> Named) : base()
         {
             this.forcePause = true;
@@ -23,30 +36,29 @@ namespace PortableBlueprint
             this.nameMessageKey = "PB.NameBlueprint".Translate();
             this.invalidNameMessageKey = "PB.BlueprintMustBeNamed".Translate();
             var roomLabel = pos.GetRoom(drawingTable.Map)?.GetRoomRoleLabel();
-            var blueprintNames = Find.Maps.SelectMany(m => m.listerThings.ThingsOfDef(PB_DefOf.PB_Blueprint)).Select(b => b.TryGetComp<CompBlueprint>()?.BlueprintName ?? "")
+            var blueprintNames = Find.Maps.SelectMany(m => m.listerThings.ThingsOfDef(PB_DefOf.PB_BlueprintPaper)).Select(b => b.TryGetComp<CompBlueprint>()?.BlueprintName ?? "")
                 .Concat(drawingTable.billStack.Bills.Select(b => (b as Bill_Blueprint)?.BlueprintName ?? ""));
             int maxCount = 0;
             if (roomLabel != null)
             {
-                blueprintNames.Where(n => n.StartsWith(roomLabel));
                 if (!blueprintNames.EnumerableNullOrEmpty())
                 {
                     maxCount = blueprintNames.Max(n =>
                     {
                         int index = n.IndexOf(roomLabel);
-                        int.TryParse(n.Substring(index + roomLabel.Length - 2), out int count);
+                        if (index < 0) index = 0;
+                        int.TryParse(n.Substring(index + roomLabel.Length), out int count);
                         return count;
                     });
                 }
             }
             else
             {
-                blueprintNames.Where(n => int.TryParse(n.Substring(0, 1), out _));
                 if (!blueprintNames.EnumerableNullOrEmpty())
                 {
                     maxCount = blueprintNames.Max(n =>
                     {
-                        int.TryParse(n.Substring(0, 3), out int count);
+                        int.TryParse(n.Substring(0, Math.Min(n.Length, 3)), out int count);
                         return count;
                     });
                 }
@@ -78,15 +90,13 @@ namespace PortableBlueprint
                 Widgets.Label(rect, this.nameMessageKey);
                 num += Text.CalcHeight(this.nameMessageKey, rect.width) + 10f;
             }
-            Widgets.TextField(new Rect(0f, num, rect.width, 35f), this.curName, this.FirstCharLimit);
+            this.curName = Widgets.TextField(new Rect(0f, num, rect.width, 35f), this.curName, this.FirstCharLimit);
             Rect rect2 = new Rect(0f, rect.height - 35f, rect.width / 2f - 5f, 35f);
             if (Widgets.ButtonText(rect2, "OK".Translate()) || enter)
             {
-                string text2 = this.curName;
-                string text3 = (text2 != null) ? text2.Trim() : null;
-                if (this.IsValidName(text3))
+                if (this.IsValidName(this.curName))
                 {
-                    this.Named(text3);
+                    this.Named(this.curName);
                     Find.WindowStack.TryRemove(this, true);
                 }
                 else
@@ -104,7 +114,7 @@ namespace PortableBlueprint
 
         protected virtual bool IsValidName(string s) => s.Length > 0;
 
-        private readonly string curName;
+        private string curName;
 
         private readonly string nameMessageKey;
 

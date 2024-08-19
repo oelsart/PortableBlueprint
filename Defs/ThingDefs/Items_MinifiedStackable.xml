@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<ThingDef Name="PB_MinifiedThingStackableBase" ParentName="MinifiedThing" Abstract="True">
+		<thingClass>PortableBlueprint.MinifiedThing_Stackable</thingClass>
+		<stackLimit>10</stackLimit>
+		<drawGUIOverlay>true</drawGUIOverlay>
+		<statBases>
+			<Mass>0</Mass>
+		</statBases>
+	</ThingDef>
+	
+	<ThingDef ParentName="PB_MinifiedThingStackableBase">
+		<defName>PB_MinifiedThing_10Stackable</defName>
+		<stackLimit>10</stackLimit>
+	</ThingDef>
+	
+	<ThingDef ParentName="PB_MinifiedThingStackableBase">
+		<defName>PB_MinifiedThing_20Stackable</defName>
+		<stackLimit>20</stackLimit>
+	</ThingDef>
+	
+</Defs>

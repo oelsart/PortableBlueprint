@@ -22,4 +22,10 @@
   
   <PB.NameBlueprint>Name this blueprint</PB.NameBlueprint>
   <PB.BlueprintMustBeNamed>Blueprint Must Be Named.</PB.BlueprintMustBeNamed>
+  
+  <PB.RenameBlueprint>Rename</PB.RenameBlueprint>
+  
+  <PB.Quotation.Buildings>Buildings</PB.Quotation.Buildings>
+  <PB.Quotation.Floors>Floors</PB.Quotation.Floors>
+  <PB.Quotation.TotalCost>Total Cost</PB.Quotation.TotalCost>
 </LanguageData>
