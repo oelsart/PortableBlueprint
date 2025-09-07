@@ -19,6 +19,8 @@
   <PB.DesignatorPlaceBlueprint>設計図を設置</PB.DesignatorPlaceBlueprint>
   <PB.DesignatorPlaceBlueprintDesc>レイアウトに描かれた建物の設計図を設置します.</PB.DesignatorPlaceBlueprintDesc>
   <PB.HoldShiftToFlip>Shiftキーで反転</PB.HoldShiftToFlip>
+  <PB.BuildFromMap>マップにあるミニ化された建築物を使う</PB.BuildFromMap>
+  <PB.BuildFromInventory>インベントリ内のミニ化された建築物を使う</PB.BuildFromInventory>
   
   <PB.NameBlueprint>設計図に名前をつける</PB.NameBlueprint>
   <PB.BlueprintMustBeNamed>設計図に名前をつけてください.</PB.BlueprintMustBeNamed>

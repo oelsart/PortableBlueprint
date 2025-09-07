@@ -2,28 +2,28 @@
 using UnityEngine;
 using Verse;
 
-namespace PortableBlueprint
+namespace PortableBlueprint;
+
+public class Settings : ModSettings
 {
-    public class Settings : ModSettings
+    public Vector2 windowPosition = new(0f, 0f);
+
+    public Dictionary<string, bool> makeBlueprintSettings = new()
     {
-        public Vector2 windowPosition = new Vector2(0f, 0f);
+        { "PB.IncludeFloors", false },
+        { "PB.DeconstructOrUninstall", false }
+    };
 
-        public Dictionary<string, bool> makeBlueprintSettings = new Dictionary<string, bool>
-        {
-            { "PB.IncludeFloors", false },
-            { "PB.DeconstructOrUninstall", false }
-        };
+    public Dictionary<string, bool> placeBlueprintSettings = new()
+    {
+        { "PB.BuildFromMap", true },
+        { "PB.BuildFromInventory", true }
+    };
 
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            Scribe_Values.Look(ref this.windowPosition, "windowPosition", new Vector2(0f, 0f));
-            var settings = this.makeBlueprintSettings;
-            Scribe_Collections.Look(ref settings, "makeBlueprintSettings", LookMode.Value, LookMode.Value);
-            if (Scribe.mode == LoadSaveMode.LoadingVars && settings != null)
-            {
-                this.makeBlueprintSettings = settings;
-            }
-        }
+    public override void ExposeData()
+    {
+        base.ExposeData();
+        Scribe_Values.Look(ref windowPosition, "windowPosition", new Vector2(0f, 0f));
+        Scribe_Collections.Look(ref makeBlueprintSettings, "makeBlueprintSettings", LookMode.Value, LookMode.Value);
     }
 }

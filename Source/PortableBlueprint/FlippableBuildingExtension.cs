@@ -1,9 +1,8 @@
 ﻿using Verse;
 
-namespace PortableBlueprint
+namespace PortableBlueprint;
+
+public class FlippableBuildingExtension : DefModExtension
 {
-    public class FlippableBuildingExtension : DefModExtension
-    {
-        public bool hasFlatSurface;
-    }
+    public bool hasFlatSurface;
 }

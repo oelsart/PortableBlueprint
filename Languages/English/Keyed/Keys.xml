@@ -19,6 +19,8 @@
   <PB.DesignatorPlaceBlueprint>Place blueprint</PB.DesignatorPlaceBlueprint>
   <PB.DesignatorPlaceBlueprintDesc>Place blueprints drawn on the layout.</PB.DesignatorPlaceBlueprintDesc>
   <PB.HoldShiftToFlip>Hold Shift To Flip</PB.HoldShiftToFlip>
+  <PB.BuildFromMap>Use minified buildings on the map</PB.BuildFromMap>
+  <PB.BuildFromInventory>Use minified buildings in any inventory</PB.BuildFromInventory>
   
   <PB.NameBlueprint>Name this blueprint</PB.NameBlueprint>
   <PB.BlueprintMustBeNamed>Blueprint Must Be Named.</PB.BlueprintMustBeNamed>

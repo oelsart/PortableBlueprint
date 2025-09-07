@@ -1,25 +1,39 @@
-﻿using Verse;
+﻿using UnityEngine;
+using Verse;
 
-namespace PortableBlueprint
+namespace PortableBlueprint;
+
+public struct FloorLayout : IExposable
 {
-    public class FloorLayout : IExposable
+    public TerrainDef topDef;
+
+    public TerrainDef foundationDef;
+
+    public IntVec3 pos;
+
+    public readonly IntVec3 PositionForRot(Rot4 globalRot)
     {
-        public FloorLayout() { }
-
-        public FloorLayout(TerrainDef def, IntVec3 pos)
+        var pos2 = pos.RotatedBy(globalRot);
+        if (Event.current.shift)
         {
-            this.def = def;
-            this.pos = pos;
+            pos2.x = -pos2.x;
         }
+        return pos2;
+    }
 
-        public void ExposeData()
-        {
-            Scribe_Defs.Look(ref def, "def");
-            Scribe_Values.Look(ref pos, "position");
-        }
+    public FloorLayout() { }
 
-        public TerrainDef def;
+    public FloorLayout(TerrainDef topDef, TerrainDef foundationDef, IntVec3 pos)
+    {
+        this.topDef = topDef;
+        this.foundationDef = foundationDef;
+        this.pos = pos;
+    }
 
-        public IntVec3 pos;
+    public void ExposeData()
+    {
+        Scribe_Defs.Look(ref topDef, "topDef");
+        Scribe_Defs.Look(ref foundationDef, "foundationDef");
+        Scribe_Values.Look(ref pos, "position");
     }
 }

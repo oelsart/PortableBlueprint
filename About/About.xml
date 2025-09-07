@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>Portable Blueprint</name>
-  <packageId>oels.portableblueprintexperimental</packageId>
+  <packageId>OELS.PortableBlueprint</packageId>
   <author>OELS</author>
   <description>持ち運びできるブループリントとテントを追加します.
-Add carryable a blueprint and a tent.
+Add portable blueprints and tents.
 </description>
   <url>https://github.com/oelsart/PortableBlueprint</url>
 
   <supportedVersions>
     <li>1.5</li>
+    <li>1.6</li>
   </supportedVersions>
 
   <modDependencies>
@@ -21,6 +22,11 @@ Add carryable a blueprint and a tent.
     </li>
   </modDependencies>
   <loadAfter>
-    <li></li>
+	<li>sicefe.senseofdepth</li>
   </loadAfter>
+  <loadAfterByVersion>
+    <v1.5>
+      <li>dhultgren.useminifiedbuildings</li>
+    </v1.5>
+  </loadAfterByVersion>
 </ModMetaData>

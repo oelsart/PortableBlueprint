@@ -1,10 +1,9 @@
 ﻿using RimWorld;
 using Verse;
 
-namespace PortableBlueprint.Tent
+namespace PortableBlueprint.Tent;
+
+public class TentParts : DefModExtension
 {
-    public class TentParts : DefModExtension
-    {
-        public FilthSourceFlags filthAcceptanceMask = FilthSourceFlags.None;
-    }
+    public FilthSourceFlags filthAcceptanceMask = FilthSourceFlags.None;
 }

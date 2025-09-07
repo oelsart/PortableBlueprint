@@ -1,52 +1,51 @@
-﻿using RimWorld;
+﻿using PortableBlueprint.Tent.TentRoof;
+using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
 using Verse;
 using Verse.AI;
 
-namespace PortableBlueprint.Tent
+namespace PortableBlueprint.Tent;
+
+public class JobDriver_RemoveTentRoof : JobDriver_AffectRoof
 {
-    public class JobDriver_RemoveTentRoof : JobDriver_AffectRoof
+    private static readonly List<IntVec3> removedRoofs = [];
+
+    protected override PathEndMode PathEndMode => PathEndMode.ClosestTouch;
+
+    protected override IEnumerable<Toil> MakeNewToils()
     {
-        protected override PathEndMode PathEndMode => PathEndMode.ClosestTouch;
-
-        protected override IEnumerable<Toil> MakeNewToils()
+        this.FailOn(() => !Map.areaManager.Get<Area_NoTentRoof>()[Cell]);
+        foreach (Toil toil in base.MakeNewToils())
         {
-            this.FailOn(() => !base.Map.areaManager.Get<Area_NoTentRoof>()[base.Cell]);
-            foreach (Toil toil in base.MakeNewToils())
+            yield return toil;
+        }
+    }
+
+    protected override void DoEffect()
+    {
+        removedRoofs.Clear();
+
+        var tempRoofGrid = Map.GetComponent<TempRoofGrid>();
+        Map.roofGrid.SetRoof(Cell, tempRoofGrid.RoofAt(Cell));
+        tempRoofGrid.SetRoof(Cell, null);
+        removedRoofs.Add(Cell);
+        removedRoofs.Clear();
+
+        HashSet<SectionLayer> regeneratedLayers = [];
+        for (int i = 0; i < 4; i++)
+        {
+            IntVec3 intVec = Cell + GenAdj.DiagonalDirections[i];
+            SectionLayer sectionLayer = Map.mapDrawer.SectionAt(intVec).GetLayer(typeof(SectionLayer_ThingsGeneral));
+            if (!regeneratedLayers.Contains(sectionLayer))
             {
-                yield return toil;
+                sectionLayer.Regenerate();
+                regeneratedLayers.Add(sectionLayer);
             }
         }
+    }
 
-        protected override void DoEffect()
-        {
-            var tentPole = TentRoofUtility.GetFirstRoofHolder(base.Cell, base.Map, false);
-            JobDriver_RemoveTentRoof.removedRoofs.Clear();
-            RoofDef roof = null;
-            tentPole?.GetComp<TentPoleComp>().roofOverTent.TryGetValue(base.Cell, out roof);
-            base.Map.roofGrid.SetRoof(base.Cell, roof);
-            JobDriver_RemoveTentRoof.removedRoofs.Add(base.Cell);
-            JobDriver_RemoveTentRoof.removedRoofs.Clear();
-
-            HashSet<SectionLayer> regeneratedLayers = new HashSet<SectionLayer>();
-            for (int i = 0; i < 4; i++)
-            {
-                IntVec3 intVec = base.Cell + GenAdj.DiagonalDirections[i];
-                SectionLayer sectionLayer = base.Map.mapDrawer.SectionAt(intVec).GetLayer(typeof(SectionLayer_ThingsGeneral));
-                if (!regeneratedLayers.Contains(sectionLayer))
-                {
-                    sectionLayer.Regenerate();
-                    regeneratedLayers.Add(sectionLayer);
-                }
-            }
-        }
-
-        protected override bool DoWorkFailOn()
-        {
-            return base.Map.roofGrid.RoofAt(base.Cell) != PB_DefOf.PB_TentRoof;
-        }
-
-        private static List<IntVec3> removedRoofs = new List<IntVec3>();
+    protected override bool DoWorkFailOn()
+    {
+        return Map.roofGrid.RoofAt(Cell) != PB_DefOf.PB_TentRoof;
     }
 }

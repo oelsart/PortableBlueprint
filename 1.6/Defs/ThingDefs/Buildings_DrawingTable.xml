@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="BenchBase" Name="PB_DrawingTable">
+		<defName>PB_DrawingTableSimple</defName>
+		<label>simple drawing table</label>
+		<description>Just a table with a T-square, scale ruler, triangle ruler, pencil, eraser, eraser shield, and drafting brush. Use to produce blueprints.\n\nHmmm, This is just barely enough to do the job...</description>
+		<thingClass>PortableBlueprint.Building_DrawingTable</thingClass>
+		<thingCategories>
+			<li>Buildings</li>
+		</thingCategories>
+		<graphicData>
+			<texPath>PortableBlueprint/DrawingTable/DrawingTableSimple</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>(2.15,1.15)</drawSize>
+			<drawOffset>(0,0,-0.15)</drawOffset>
+			<shadowData>
+				<volume>(1.8, 0.6, 0.75)</volume>
+				<offset>(0, 0, -0.35)</offset>
+			</shadowData>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+				<cornerBL>Damage/Corner</cornerBL>
+				<cornerBR>Damage/Corner</cornerBR>
+			</damageData>
+		</graphicData>
+		<costList>
+			<Steel>50</Steel>
+		</costList>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+		</stuffCategories>
+		<costStuffCount>75</costStuffCount>
+		<altitudeLayer>Building</altitudeLayer>
+		<fillPercent>0.5</fillPercent>
+		<useHitPoints>True</useHitPoints>
+		<statBases>
+			<WorkToBuild>1800</WorkToBuild>
+			<MaxHitPoints>120</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+			<Cleanliness>-5</Cleanliness>
+			<WorkTableWorkSpeedFactor>1</WorkTableWorkSpeedFactor>
+		</statBases>
+		<size>(2,1)</size>
+		<designationCategory>Production</designationCategory>
+		<passability>PassThroughOnly</passability>
+		<pathCost>50</pathCost>
+		<hasInteractionCell>True</hasInteractionCell>
+		<interactionCellOffset>(1,0,-1)</interactionCellOffset>
+		<surfaceType>Item</surfaceType>
+		<recipes>
+			<li>PB_DrawBlueprint</li>
+		</recipes>
+		<researchPrerequisites>
+			<li>ComplexFurniture</li>
+		</researchPrerequisites>
+		<inspectorTabs>
+			<li>PortableBlueprint.ITab_DrawingTable</li>
+		</inspectorTabs>
+		<building>
+			<spawnedConceptLearnOpportunity>BillsTab</spawnedConceptLearnOpportunity>
+			<paintable>true</paintable>
+		</building>
+		<comps>
+			<li Class="CompProperties_AffectedByFacilities">
+				<linkableFacilities>
+					<li>ToolCabinet</li>
+				</linkableFacilities>
+			</li>
+		</comps>
+		<placeWorkers>
+			<li>PlaceWorker_ShowFacilitiesConnections</li>
+			<li>PlaceWorker_PreventInteractionSpotOverlap</li>
+		</placeWorkers>
+		<modExtensions>
+			<li Class="PortableBlueprint.FlippableBuildingExtension">
+				<hasFlatSurface>true</hasFlatSurface>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<ThingDef ParentName="PB_DrawingTable">
+		<defName>PB_DrawingTableProfessional</defName>
+		<label>professional drawing table</label>
+		<description>Professional drawing table for architectural design. It has supported architectures of mankind in the MidWorld until CAD was invented.\n\nExtremely useful!</description>
+		<graphicData>
+			<texPath>PortableBlueprint/DrawingTable/DrawingTableProfessional</texPath>
+			<drawSize>(3,2)</drawSize>
+			<drawOffset>(0,0,0.5)</drawOffset>
+			<drawOffsetNorth>(0,0,0.15)</drawOffsetNorth>
+			<shadowData>
+				<volume>(1.68, 0.9, 0.9)</volume>
+				<offset>(0, 0, -0.25)</offset>
+			</shadowData>
+		</graphicData>
+		<costList>
+			<Steel>75</Steel>
+			<ComponentIndustrial>3</ComponentIndustrial>
+		</costList>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+		</stuffCategories>
+		<costStuffCount>100</costStuffCount>
+		<statBases>
+			<WorkToBuild>3600</WorkToBuild>
+			<MaxHitPoints>180</MaxHitPoints>
+			<Flammability>1.0</Flammability>
+			<Cleanliness>-5</Cleanliness>
+			<WorkTableWorkSpeedFactor>1.5</WorkTableWorkSpeedFactor>
+		</statBases>
+		<interactionCellOffset>(0,0,-1)</interactionCellOffset>
+		<researchPrerequisites>
+			<li>MicroelectronicsBasics</li>
+		</researchPrerequisites>
+		<modExtensions>
+			<li Class="PortableBlueprint.FlippableBuildingExtension">
+				<hasFlatSurface>false</hasFlatSurface>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+</Defs>
