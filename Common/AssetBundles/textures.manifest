@@ -1,0 +1,64 @@
+ManifestFileVersion: 0
+CRC: 634834555
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 82bfea6a346030d59565002bea0a69cc
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2612ac43db082a73502ee80f2eceb73f
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 82bfea6a346030d59565002bea0a69cc
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentWall/TentWall_Atlas_SouthWest/TentWall_Atlas_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Mover2_Atlas_NorthEast/TentDoor_Mover2_Atlas_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Top_Atlas_SouthWest/TentDoor_Top_Atlas_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableProfessional_eastm.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Top_Atlas_NorthEast/TentDoor_Top_Atlas_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableProfessional_north.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentPole.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/UI/FlipIcon.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/Blueprint.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentWall/TentWall_Blueprint.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableSimple_west.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentWall/TentWall_Atlas_SouthWest/TentWall_Atlas_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/UI/MakeBlueprint.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableSimple_eastm.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableSimple_east.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableProfessional_westm.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentWall/TentWallFabric_MenuIcon.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Mover2_Atlas_SouthWest/TentDoor_Mover2_Atlas_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableSimple_northm.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableSimple_westm.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Top_Atlas_SouthWest/TentDoor_Top_Atlas_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentWall/TentWallLeathery_MenuIcon.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableProfessional_west.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableProfessional_south.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableProfessional_southm.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableProfessional_east.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableSimple_south.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Mover1_Atlas_NorthEast/TentDoor_Mover1_Atlas_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Mover1_Atlas_SouthWest/TentDoor_Mover1_Atlas_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Mover1_Atlas_SouthWest/TentDoor_Mover1_Atlas_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Mover2_Atlas_NorthEast/TentDoor_Mover2_Atlas_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Mover1_Atlas_NorthEast/TentDoor_Mover1_Atlas_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Mover2_Atlas_SouthWest/TentDoor_Mover2_Atlas_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Top_Atlas_NorthEast/TentDoor_Top_Atlas_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentWall/TentWall_Atlas_NorthEast/TentWall_Atlas_Leathery.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_Blueprint.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableSimple_north.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableSimple_southm.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/UI/PlaceBlueprint.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentFloor.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/DrawingTable/DrawingTableProfessional_northm.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentDoor/TentDoor_MenuIcon/TentDoor_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/TentWall/TentWall_Atlas_NorthEast/TentWall_Atlas_Fabric.png
+- Assets/Data/OELS.PortableBlueprints/Textures/PortableBlueprint/Blueprint_Unfinished.png
+Dependencies: []

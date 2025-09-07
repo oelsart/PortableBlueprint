@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Portable Blueprint</name>
-  <packageId>OELS.PortableBlueprint</packageId>
+  <name>Portable Blueprints</name>
+  <packageId>OELS.PortableBlueprints</packageId>
   <author>OELS</author>
   <description>持ち運びできるブループリントとテントを追加します.
 Add portable blueprints and tents.
