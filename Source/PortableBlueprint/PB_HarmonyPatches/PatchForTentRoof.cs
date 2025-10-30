@@ -97,6 +97,29 @@ public static class Patch_AreaManager_AddStartingAreas
     }
 }
 
+[HarmonyPatch(typeof(AreaManager), nameof(AreaManager.ExposeData))]
+public static class Patch_AreaManager_ExposeData
+{
+    public static void Postfix(List<Area> ___areas, AreaManager __instance)
+    {
+        if (Scribe.mode == LoadSaveMode.LoadingVars)
+        {
+            if (___areas.All(area => area is not Area_BuildTentRoof))
+            {
+                var area = new Area_BuildTentRoof(__instance);
+                ___areas.Add(area);
+                area.areaManager = __instance;
+            }
+            if (___areas.All(area => area is not Area_NoTentRoof))
+            {
+                var area = new Area_NoTentRoof(__instance);
+                ___areas.Add(area);
+                area.areaManager = __instance;
+            }
+        }
+    }
+}
+
 [HarmonyPatch(typeof(JobDriver_RemoveRoof), "MakeNewToils")]
 public static class Patch_JobDriver_RemoveRoof_MakeNewToils
 {
