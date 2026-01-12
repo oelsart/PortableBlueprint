@@ -13,7 +13,7 @@ namespace PortableBlueprint.PB_HarmonyPatches;
 
 public class ExtraGUIFormCaravan
 {
-    private readonly Dictionary<TransferableOneWay, IEnumerable<ThingDefCountClass>> totalCostList = [];
+    private readonly Dictionary<TransferableOneWay, List<ThingDefCountClass>> totalCostList = [];
 
     private readonly Dictionary<TransferableOneWay, List<TransferableOneWay>> relatedThingList = [];
 
@@ -33,7 +33,7 @@ public class ExtraGUIFormCaravan
 
     private float availableMass;
 
-    private float extraViewRectHeight = 0f;
+    private float extraViewRectHeight;
 
     private bool recacheRequest;
 
@@ -58,7 +58,7 @@ public class ExtraGUIFormCaravan
                 Instance.itemsTransfer = new TransferableOneWayWidget(transferables, null, null, null, false, IgnorePawnsInventoryMode.Ignore, false, availableMassGetter);
             }
 
-            bool _ = false;
+            var _ = false;
             if (travelSuppliesTransfer != null && Find.WindowStack.TryGetWindow<Dialog_FormCaravan>(out var dialog))
             {
                 dialog.DrawAutoSelectCheckbox(Rect.zero, ref _);
@@ -78,12 +78,12 @@ public class ExtraGUIFormCaravan
                 {
                     m.AnyThing.TryGetQuality(out var qc);
                     return qc;
-                }).OrderBy(m => m.AnyThing.LabelNoParenthesis);
+                }).ThenBy(m => m.AnyThing.LabelNoParenthesis);
                 Instance.relatedThingList[blueprint] = [.. minifiedList.ConcatIfNotNull(tradList)];
                 Instance.totalCostList[blueprint] = totalCost;
                 Instance.cachedThresholds[blueprint] = [.. totalCost];
 
-                Instance.availableMass = (availableMassGetter != null) ? availableMassGetter() : float.MaxValue;
+                Instance.availableMass = availableMassGetter?.Invoke() ?? float.MaxValue;
                 Instance.cachedReachedThreshold[blueprint] = [];
                 Instance.cachedMassThresholds[blueprint] = [];
             }
@@ -96,15 +96,19 @@ public class ExtraGUIFormCaravan
     {
         foreach (var blueprint in Instance.relatedThingList.Select(t => t.Key))
         {
-            foreach (var trad in Instance.relatedThingList[blueprint].Reverse<TransferableOneWay>())
+            if (!Instance.relatedThingList.TryGetValue(blueprint, out var tradList) ||
+                !Instance.cachedReachedThreshold.TryGetValue(blueprint, out var reachedThresholdDict) ||
+                !Instance.cachedMassThresholds.TryGetValue(blueprint, out var massThreasholdDict))
+                continue;
+            foreach (var trad in tradList.Reverse<TransferableOneWay>())
             {
                 var widget = WidgetSelect(trad);
-                Instance.cachedReachedThreshold[blueprint][trad] = ReachedThreshold(blueprint, trad);
-                float num = Instance.availableMass + ((float)GetMass(widget, trad.AnyThing) * trad.CountToTransfer);
-                var massThreshold = (num <= 0f) ? 0 : Mathf.FloorToInt(num / (float)GetMass(widget, trad.AnyThing));
-                Instance.cachedMassThresholds[blueprint][trad] = massThreshold;
+                reachedThresholdDict[trad] = ReachedThreshold(blueprint, trad);
+                var num = Instance.availableMass + (float)GetMass(widget, trad.AnyThing) * trad.CountToTransfer;
+                var massThreshold = num <= 0f ? 0 : Mathf.FloorToInt(num / (float)GetMass(widget, trad.AnyThing));
+                massThreasholdDict[trad] = massThreshold;
             }
-            Instance.cachedReachedThreshold[blueprint][blueprint] = ReachedThreshold(null, blueprint);
+            reachedThresholdDict[blueprint] = ReachedThreshold(null, blueprint);
         }
         Instance.recacheRequest = false;
     }
@@ -117,11 +121,11 @@ public class ExtraGUIFormCaravan
         {
             return Instance.cachedThresholds[trad].All(t =>
             {
-                var minified = Instance.relatedThingList[trad].Where(r => r.AnyThing.GetInnerIfMinified()?.CostListAdjusted().Any(c => c.thingDef == t.thingDef) ?? false);
-                if (!minified.EnumerableNullOrEmpty() && minified.All(m => ReachedThreshold(trad, m))) return true;
+                var minified = Instance.relatedThingList[trad].Where(r =>
+                    r.AnyThing.GetInnerIfMinified()?.CostListAdjusted().Any(c => c.thingDef == t.thingDef) ?? false).ToList();
+                if (!minified.NullOrEmpty() && minified.All(m => ReachedThreshold(trad, m))) return true;
                 var trad2 = Instance.relatedThingList[trad].FirstOrDefault(r => r.ThingDef == t.thingDef);
-                if (trad2 == null) return false;
-                return ReachedThreshold(trad, trad2);
+                return trad2 != null && ReachedThreshold(trad, trad2);
             });
         }
 
@@ -140,7 +144,7 @@ public class ExtraGUIFormCaravan
     [HarmonyPatch(typeof(TransferableOneWayWidget), "FillMainRect")]
     public static class Patch_TransferableOneWayWidget_FillMainRect
     {
-        [HarmonyReversePatch(HarmonyReversePatchType.Original)]
+        [HarmonyReversePatch]
         public static void Original(TransferableOneWayWidget instance, Rect mainRect, out bool anythingChanged) => throw new NotImplementedException();
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
@@ -169,7 +173,7 @@ public class ExtraGUIFormCaravan
                 CodeInstruction.StoreLocal(0),
             ]);
 
-            var pos2 = codes.FindIndex(pos, c => c.opcode == OpCodes.Ldloc_S && (c.operand as LocalBuilder).LocalIndex == 5);
+            var pos2 = codes.FindIndex(pos, c => c.opcode == OpCodes.Ldloc_S && ((LocalBuilder)c.operand).LocalIndex == 5);
             codes.InsertRange(pos2,
             [
                 new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(ExtraGUIFormCaravan), nameof(Instance))),
@@ -207,16 +211,19 @@ public class ExtraGUIFormCaravan
         Instance.currentWidget = instance;
         Instance.availableMass = availableMass;
         if (Instance.recacheRequest) ReCacheThresholds();
+        if (!Instance.relatedThingList.TryGetValue(blueprint, out var relatedThings) ||
+            !Instance.cachedReachedThreshold.TryGetValue(blueprint, out var reachedThresholdDict) ||
+            !Instance.cachedThresholds.TryGetValue(blueprint, out var threasholds) ||
+            !Instance.cachedMassThresholds.TryGetValue(blueprint, out var massThreasholdDict))
+            return;
+        
         var collapse = Instance.collapse;
-        if (!collapse.ContainsKey(blueprint))
-        {
-            collapse[blueprint] = true;
-        }
-        Texture2D tex = collapse[blueprint] ? TexButton.Reveal : TexButton.Collapse;
+        collapse.TryAdd(blueprint, true);
+        var tex = collapse[blueprint] ? TexButton.Reveal : TexButton.Collapse;
         if (Widgets.ButtonImageFitted(rect.LeftPartPixels(30f), tex))
         {
             collapse[blueprint] = !collapse[blueprint];
-            var extraHeight = 30f * Instance.relatedThingList[blueprint].Count;
+            var extraHeight = 30f * relatedThings.Count;
             Instance.extraViewRectHeight += collapse[blueprint] ? -extraHeight : extraHeight;
         }
 
@@ -224,24 +231,16 @@ public class ExtraGUIFormCaravan
         var blueprintRect = new Rect(indent, curY, rect.width - indent, 30f);
 
         indent += 15f;
-        var relatedThings = Instance.relatedThingList[blueprint];
         foreach (var trad in relatedThings)
         {
-            var reached = Instance.cachedReachedThreshold[blueprint][trad];
-            if (reached)
-            {
-                GUI.color = Color.green;
-            }
-            else
-            {
-                GUI.color = Color.red;
-            }
+            var reached = reachedThresholdDict[trad];
+            GUI.color = reached ? Color.green : Color.red;
             if (!collapse[blueprint])
             {
                 curY += 30f;
                 var widget = WidgetSelect(trad);
-                var threshold = Instance.cachedThresholds[blueprint].FirstOrDefault(t => t.thingDef == trad.ThingDef)?.count ?? 0;
-                if (trad.CountToTransfer == threshold) threshold = Instance.cachedMassThresholds[blueprint][trad];
+                var threshold = threasholds.FirstOrDefault(t => t.thingDef == trad.ThingDef)?.count ?? 0;
+                if (trad.CountToTransfer == threshold) threshold = massThreasholdDict[trad];
                 var countToTransfer = trad.CountToTransfer;
                 ReversePatch_TransferableOneWayWidget_DoRow.DoRow(widget, new Rect(indent, curY, rect.width - indent, 30f), trad, 1, availableMass, threshold);
                 if (countToTransfer != trad.CountToTransfer)
@@ -257,7 +256,7 @@ public class ExtraGUIFormCaravan
         }
         else
         {
-            GUI.color = Instance.cachedReachedThreshold[blueprint][blueprint] ? Color.green : Color.red;
+            GUI.color = reachedThresholdDict[blueprint] ? Color.green : Color.red;
             ReversePatch_TransferableOneWayWidget_DoRow.DoRow(instance, blueprintRect, blueprint, 1, availableMass, 0);
         }
         GUI.color = Color.white;
@@ -283,8 +282,8 @@ public class ExtraGUIFormCaravan
             IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 var codes = instructions.ToList();
-                var pos = codes.FindIndex(c => c.opcode == OpCodes.Stloc_S && (c.operand as LocalBuilder).LocalIndex == 4);
-                var pos2 = codes.FindIndex(c => c.opcode == OpCodes.Stloc_S && (c.operand as LocalBuilder).LocalIndex == 5);
+                var pos = codes.FindIndex(c => c.opcode == OpCodes.Stloc_S && ((LocalBuilder)c.operand).LocalIndex == 4);
+                var pos2 = codes.FindIndex(c => c.opcode == OpCodes.Stloc_S && ((LocalBuilder)c.operand).LocalIndex == 5);
                 codes.RemoveRange(pos + 1, pos2 - pos - 1);
 
                 codes.Insert(pos + 1, CodeInstruction.LoadArgument(5));
@@ -309,7 +308,7 @@ public class ExtraGUIFormCaravan
             if ((compBlueprint = ___localTrad.AnyThing.TryGetComp<CompBlueprint>()) != null)
             {
                 var source = TransferableUIUtility.ContentSourceDescription(___localTrad.AnyThing);
-                __result = __result.Insert(__result.IndexOf(source), compBlueprint.CompTipStringExtra());
+                __result = __result.Insert(__result.IndexOf(source, StringComparison.Ordinal), compBlueprint.CompTipStringExtra());
             }
         }
     }
@@ -385,10 +384,7 @@ public class ExtraGUIFormCaravan
                     foreach (var cost in minifiedCostList)
                     {
                         var threshold = Instance.cachedThresholds[thresholds.Key].FirstOrDefault(t => t.thingDef == cost.thingDef);
-                        if (threshold != null)
-                        {
-                            threshold.count -= cost.count * adjustment;
-                        }
+                        threshold?.count -= cost.count * adjustment;
                     }
                 }
             }

@@ -9,14 +9,8 @@ public class CompBlueprint : ThingComp
 {
     public string BlueprintName
     {
-        get
-        {
-            return blueprintName;
-        }
-        set
-        {
-            blueprintName = value;
-        }
+        get => blueprintName;
+        set => blueprintName = value;
     }
 
     public List<BuildingLayout> BuildingLayoutList => buildingLayoutList;
@@ -34,7 +28,7 @@ public class CompBlueprint : ThingComp
             if (!buildingList.NullOrEmpty())
             {
                 text += "PB.Quotation.Buildings".Translate() + ":\n";
-                foreach (var building in buildingList)
+                foreach (var building in buildingList!)
                 {
                     if (building.Key is null) continue;
                     text += $" -{building.Key.LabelCap} {building.Count()}\n";
@@ -45,7 +39,7 @@ public class CompBlueprint : ThingComp
             if (!floorList.NullOrEmpty())
             {
                 text += "PB.Quotation.Floors".Translate() + ":\n";
-                foreach (var floor in floorList)
+                foreach (var floor in floorList!)
                 {
                     if (floor.Key is null) continue;
                     text += $" -{floor.Key.LabelCap} {floor.Count()}\n";
@@ -53,7 +47,7 @@ public class CompBlueprint : ThingComp
             }
             if (!foundationList.NullOrEmpty())
             {
-                foreach (var foundation in foundationList)
+                foreach (var foundation in foundationList!)
                 {
                     if (foundation.Key is null) continue;
                     text += $" -{foundation.Key.LabelCap} {foundation.Count()}\n";
@@ -71,16 +65,41 @@ public class CompBlueprint : ThingComp
         }
     }
 
-    public IEnumerable<ThingDefCountClass> TotalCost
+    public List<ThingDefCountClass> TotalCost
     {
         get
         {
-            var costList = buildingLayoutList?.Select(b => b.def?.CostListAdjusted(b.stuff))
-                .ConcatIfNotNull(floorLayoutList?.Select(f => f.topDef?.CostList))
-                .ConcatIfNotNull(floorLayoutList?.Select(f => f.foundationDef?.CostList)).SelectMany(c => c);
-            foreach (var cost in costList.Where(c => c?.thingDef != null).GroupBy(c => c.thingDef))
+            if (field is null)
             {
-                yield return new ThingDefCountClass(cost.Key, cost.Sum(c => c.count));
+                field = [];
+                foreach (var cost in CostEnumerable().SelectMany(c => c)
+                             .Where(c => c?.thingDef != null).GroupBy(c => c.thingDef))
+                {
+                    field.Add(new ThingDefCountClass(cost.Key, cost.Sum(c => c.count)));
+                }
+            }
+            return field;
+
+            IEnumerable<List<ThingDefCountClass>> CostEnumerable()
+            {
+                if (!buildingLayoutList.NullOrEmpty())
+                {
+                    foreach (var building in buildingLayoutList.Where(b => b.def != null))
+                    {
+                        yield return building.def.CostListAdjusted(building.stuff);
+                    }
+                }
+                if (!floorLayoutList.NullOrEmpty())
+                {
+                    foreach (var floor in floorLayoutList.Where(f => f.topDef != null))
+                    {
+                        yield return floor.topDef.CostList;
+                    }
+                    foreach (var floor in floorLayoutList.Where(f => f.foundationDef != null))
+                    {
+                        yield return floor.foundationDef.CostList;
+                    }
+                }
             }
         }
     }
