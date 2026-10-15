@@ -94,6 +94,37 @@ public class ExtraGUIFormCaravan
 		}
 	}
 
+	[HarmonyPatch(typeof(Window), nameof(Window.PostClose))]
+	public static class Patch_Window_PostClose
+	{
+		public static void Postfix() => Instance = null;
+	}
+
+	[HarmonyPatch(typeof(Dialog_LoadTransporters), "CalculateAndRecacheTransferables")]
+	public static class Patch_Dialog_LoadTransporters_CalculateAndRecacheTransferables
+	{
+		public static void Postfix(List<TransferableOneWay> ___transferables, TransferableOneWayWidget ___itemsTransfer,
+			List<CompTransporter> ___transporters)
+		{
+			Patch_CaravanUIUtility_CreateCaravanTransferableWidgets
+				.Postfix(___transferables, ___itemsTransfer, null, () => MassCapacity() - MassUsage());
+			return;
+
+			float MassCapacity()
+			{
+				return ___transporters.Sum(t => t.MassCapacity);
+			}
+
+			float MassUsage()
+			{
+				var compShuttle = ___transporters.AsShuttle();
+				return CollectionsMassCalculator.MassUsageTransferables(___transferables,
+					IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload,
+					compShuttle == null || compShuttle.requiredColonistCount == 0);
+			}
+		}
+	}
+
 	private static void ReCacheThresholds()
 	{
 		foreach (var blueprint in Instance.relatedThingList.Select(t => t.Key))

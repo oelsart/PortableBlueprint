@@ -5,7 +5,7 @@ using Verse;
 namespace PortableBlueprint.PB_HarmonyPatches;
 
 [StaticConstructorOnStartup]
-class HarmonyPatches
+internal static class HarmonyPatches
 {
 	static HarmonyPatches()
 	{
