@@ -5,6 +5,7 @@ using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using MethodInvoker = HarmonyLib.MethodInvoker;
 
 namespace PortableBlueprint.PB_HarmonyPatches;
 

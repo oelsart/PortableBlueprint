@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using UnityEngine;
 using Verse;
 
 namespace PortableBlueprint;
@@ -60,7 +62,7 @@ public class UI_MakeBlueprint
 		Listing_Standard listing_Standard = new();
 		listing_Standard.Begin(contentRect);
 		var settings = curSettings;
-		foreach (var (key, value) in settings.ToArray()) // TODO 1.7: アロケーション削減
+		foreach (var (key, _) in settings)
 		{
 			var rect = listing_Standard.GetRect(Text.CalcHeight(key, listing_Standard.ColumnWidth));
 			if (Widgets.ButtonInvisible(rect))
@@ -68,9 +70,11 @@ public class UI_MakeBlueprint
 				PortableBlueprint.settings.Write();
 			}
 
-			var setting = value;
-			Widgets.CheckboxLabeled(rect, key.Translate(), ref setting);
-			settings[key] = setting;
+			ref var setting = ref CollectionsMarshal.GetValueRefOrNullRef(settings, key);
+			if (!Unsafe.IsNullRef(ref setting))
+			{
+				Widgets.CheckboxLabeled(rect, key.Translate(), ref setting);
+			}
 		}
 
 		listing_Standard.End();
