@@ -63,7 +63,7 @@ public static class GenConstructEx
 	{
 		if (VehicleMapFramework.Active)
 		{
-			if (PortableBlueprint.settings.placeBlueprintSettings["PB.BuildFromMap"])
+			if (PortableBlueprint.settings.placeBlueprintSettings[Settings.BuildFromMap])
 			{
 				foreach (var map2 in VehicleMapFramework.BaseMapAndVehicleMaps(map))
 				{
@@ -75,12 +75,12 @@ public static class GenConstructEx
 				}
 			}
 
-			return PortableBlueprint.settings.placeBlueprintSettings["PB.BuildFromInventory"]
+			return PortableBlueprint.settings.placeBlueprintSettings[Settings.BuildFromInventory]
 				? MinifiedThingInInventory(VehicleMapFramework.BaseMap(map))
 				: null;
 		}
 
-		if (PortableBlueprint.settings.placeBlueprintSettings["PB.BuildFromMap"])
+		if (PortableBlueprint.settings.placeBlueprintSettings[Settings.BuildFromMap])
 		{
 			var minifiedThing = MinifiedThingOnMap(map);
 			if (minifiedThing != null)
@@ -89,7 +89,7 @@ public static class GenConstructEx
 			}
 		}
 
-		return PortableBlueprint.settings.placeBlueprintSettings["PB.BuildFromInventory"]
+		return PortableBlueprint.settings.placeBlueprintSettings[Settings.BuildFromInventory]
 			? MinifiedThingInInventory(map)
 			: null;
 

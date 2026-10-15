@@ -30,7 +30,7 @@ public sealed class Designator_MakeBlueprint : Designator
 
 	public override AcceptanceReport CanDesignateThing(Thing t)
 	{
-		return t as Building != null && t.def.BuildableByPlayer;
+		return t is Building && t.def.BuildableByPlayer;
 	}
 
 	public override void DesignateMultiCell(IEnumerable<IntVec3> cells)
@@ -41,7 +41,7 @@ public sealed class Designator_MakeBlueprint : Designator
 
 		IntVec3 min;
 		IntVec3 max;
-		if (PortableBlueprint.settings.makeBlueprintSettings["PB.IncludeFloors"])
+		if (PortableBlueprint.settings.makeBlueprintSettings[Settings.IncludeFloors])
 		{
 			designateCells = [.. cellList.Where(c => c.GetTerrain(Map).BuildableByPlayer)];
 		}
@@ -92,7 +92,7 @@ public sealed class Designator_MakeBlueprint : Designator
 		{
 			bill_Blueprint.BlueprintName = s;
 			drawingTable.billStack.AddBill(bill_Blueprint);
-			if (PortableBlueprint.settings.makeBlueprintSettings["PB.DeconstructOrUninstall"])
+			if (PortableBlueprint.settings.makeBlueprintSettings[Settings.DeconstructOrUninstall])
 			{
 				if (existBuildings)
 				{
@@ -130,7 +130,7 @@ public sealed class Designator_MakeBlueprint : Designator
 	public override void RenderHighlight(List<IntVec3> dragCells)
 	{
 		base.RenderHighlight(dragCells);
-		if (PortableBlueprint.settings.makeBlueprintSettings["PB.IncludeFloors"])
+		if (PortableBlueprint.settings.makeBlueprintSettings[Settings.IncludeFloors])
 		{
 			foreach (var c in Find.DesignatorManager.Dragger.DragCells)
 			{
