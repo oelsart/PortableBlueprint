@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Verse;
+﻿using Verse;
 
 namespace PortableBlueprint.Tent;
 
 public class TentDoorGraphics : DefModExtension
 {
-    public GraphicData graphicDataTop;
+	public GraphicData graphicDataTop;
 
-    public List<GraphicData> graphicDataMover;
+	public List<GraphicData> graphicDataMover;
 }

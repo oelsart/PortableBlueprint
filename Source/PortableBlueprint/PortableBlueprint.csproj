@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-	<LangVersion>preview</LangVersion>
-	<OutputType>Library</OutputType>
-	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <LangVersion>preview</LangVersion>
+    <OutputType>Library</OutputType>
+    <ImplicitUsings>true</ImplicitUsings>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -17,7 +18,7 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4566" />
-    <PackageReference Include="Lib.Harmony.Ref" Version="2.4.1" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4566"/>
+    <PackageReference Include="Lib.Harmony.Ref" Version="2.4.1"/>
   </ItemGroup>
 </Project>

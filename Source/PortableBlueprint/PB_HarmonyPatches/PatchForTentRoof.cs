@@ -1,11 +1,8 @@
-﻿using HarmonyLib;
+﻿using System.Reflection.Emit;
+using HarmonyLib;
 using PortableBlueprint.Tent;
 using PortableBlueprint.Tent.TentRoof;
 using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
 using Verse;
 using Verse.AI;
 
@@ -14,164 +11,172 @@ namespace PortableBlueprint.PB_HarmonyPatch;
 [HarmonyPatch(typeof(AutoBuildRoofAreaSetter), "TryGenerateAreaNow")]
 public static class Patch_AutoBuildRoofAreaSetter_TryGenerateAreaNow
 {
-    public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
-    {
-        var codes = instructions.ToList();
-        var flag2 = generator.DeclareLocal(typeof(bool));
-        codes.InsertRange(0,
-        [
-            new CodeInstruction(OpCodes.Ldc_I4_0),
-            new CodeInstruction(OpCodes.Stloc_S, flag2)
-        ]);
+	public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+		ILGenerator generator)
+	{
+		var codes = instructions.ToList();
+		var flag2 = generator.DeclareLocal(typeof(bool));
+		codes.InsertRange(0,
+		[
+			new CodeInstruction(OpCodes.Ldc_I4_0),
+			new CodeInstruction(OpCodes.Stloc_S, flag2)
+		]);
 
-        var pos = codes.FindIndex(c => c.opcode == OpCodes.Ldfld && c.operand.Equals(AccessTools.Field(typeof(BuildingProperties), "allowAutoroof")));
-        pos = codes.FindIndex(pos, c => c.opcode == OpCodes.Bne_Un_S);
-        var label = (Label)codes[pos].operand;
-        var label2 = generator.DefineLabel();
-        codes[pos].operand = label2;
-        pos = codes.FindIndex(pos, c => c.opcode == OpCodes.Ldloc_1);
-        codes[pos].labels.Add(label);
-        codes.InsertRange(pos,
-        [
-            CodeInstruction.LoadLocal(2).WithLabels(label2),
-            CodeInstruction.LoadField(typeof(Thing), "def"),
-            new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(ThingDef), nameof(ThingDef.HasModExtension)).MakeGenericMethod(typeof(TentParts))),
-            new CodeInstruction(OpCodes.Brfalse_S, label),
-            new CodeInstruction(OpCodes.Ldc_I4_1),
-            new CodeInstruction(OpCodes.Stloc_S, flag2)
-        ]);
+		var pos = codes.FindIndex(c =>
+			c.opcode == OpCodes.Ldfld && c.operand.Equals(AccessTools.Field(typeof(BuildingProperties), "allowAutoroof")));
+		pos = codes.FindIndex(pos, c => c.opcode == OpCodes.Bne_Un_S);
+		var label = (Label)codes[pos].operand;
+		var label2 = generator.DefineLabel();
+		codes[pos].operand = label2;
+		pos = codes.FindIndex(pos, c => c.opcode == OpCodes.Ldloc_1);
+		codes[pos].labels.Add(label);
+		codes.InsertRange(pos,
+		[
+			CodeInstruction.LoadLocal(2).WithLabels(label2),
+			CodeInstruction.LoadField(typeof(Thing), "def"),
+			new CodeInstruction(OpCodes.Callvirt,
+				AccessTools.Method(typeof(ThingDef), nameof(ThingDef.HasModExtension)).MakeGenericMethod(typeof(TentParts))),
+			new CodeInstruction(OpCodes.Brfalse_S, label),
+			new CodeInstruction(OpCodes.Ldc_I4_1),
+			new CodeInstruction(OpCodes.Stloc_S, flag2)
+		]);
 
-        pos = codes.FindIndex(pos, c => c.opcode == OpCodes.Ldfld && c.operand.Equals(AccessTools.Field(typeof(AutoBuildRoofAreaSetter), "cellsToRoof"))) - 1;
-        var pos2 = codes.FindLastIndex(pos, c => c.opcode == OpCodes.Leave_S);
-        var label3 = (Label)codes[pos2].operand;
-        var label4 = generator.DefineLabel();
-        codes[pos].labels.Add(label4);
-        codes.InsertRange(pos,
-        [
-            new CodeInstruction(OpCodes.Ldloc_S, flag2).WithLabels(label3),
-            new CodeInstruction(OpCodes.Brfalse_S, label4),
-            CodeInstruction.LoadArgument(0),
-            CodeInstruction.LoadField(typeof(AutoBuildRoofAreaSetter), "innerCells"),
-            CodeInstruction.LoadArgument(0),
-            CodeInstruction.LoadField(typeof(AutoBuildRoofAreaSetter), "map"),
-            CodeInstruction.Call(typeof(Patch_AutoBuildRoofAreaSetter_TryGenerateAreaNow), "MakeTentRoofArea"),
-            new CodeInstruction(OpCodes.Ret)
-        ]);
-        return codes;
-    }
+		pos = codes.FindIndex(pos,
+			c => c.opcode == OpCodes.Ldfld &&
+			     c.operand.Equals(AccessTools.Field(typeof(AutoBuildRoofAreaSetter), "cellsToRoof"))) - 1;
+		var pos2 = codes.FindLastIndex(pos, c => c.opcode == OpCodes.Leave_S);
+		var label3 = (Label)codes[pos2].operand;
+		var label4 = generator.DefineLabel();
+		codes[pos].labels.Add(label4);
+		codes.InsertRange(pos,
+		[
+			new CodeInstruction(OpCodes.Ldloc_S, flag2).WithLabels(label3),
+			new CodeInstruction(OpCodes.Brfalse_S, label4),
+			CodeInstruction.LoadArgument(0),
+			CodeInstruction.LoadField(typeof(AutoBuildRoofAreaSetter), "innerCells"),
+			CodeInstruction.LoadArgument(0),
+			CodeInstruction.LoadField(typeof(AutoBuildRoofAreaSetter), "map"),
+			CodeInstruction.Call(typeof(Patch_AutoBuildRoofAreaSetter_TryGenerateAreaNow), "MakeTentRoofArea"),
+			new CodeInstruction(OpCodes.Ret)
+		]);
+		return codes;
+	}
 
-    public static void MakeTentRoofArea(HashSet<IntVec3> innerCells, Map map)
-    {
-        var cellsToRoof = new HashSet<IntVec3>();
-        foreach (IntVec3 a in innerCells)
-        {
-            for (int l = 0; l < 9; l++)
-            {
-                IntVec3 intVec2 = a + GenAdj.AdjacentCellsAndInside[l];
-                if (intVec2.InBounds(map) && (l == 8 || intVec2.GetTentRoofHolder(map) != null))
-                {
-                    cellsToRoof.Add(intVec2);
-                }
-            }
-        }
+	public static void MakeTentRoofArea(HashSet<IntVec3> innerCells, Map map)
+	{
+		var cellsToRoof = new HashSet<IntVec3>();
+		foreach (var a in innerCells)
+		{
+			for (var l = 0; l < 9; l++)
+			{
+				var intVec2 = a + GenAdj.AdjacentCellsAndInside[l];
+				if (intVec2.InBounds(map) && (l == 8 || intVec2.GetTentRoofHolder(map) != null))
+				{
+					cellsToRoof.Add(intVec2);
+				}
+			}
+		}
 
-        var justRoofedCells = new List<IntVec3>();
-        foreach (IntVec3 intVec3 in cellsToRoof)
-        {
-            if (map.roofGrid.RoofAt(intVec3) == null && !justRoofedCells.Contains(intVec3) && !map.areaManager.Get<Area_NoTentRoof>()[intVec3] && TentRoofUtility.WithinRangeOfRoofHolder(intVec3, map, true))
-            {
-                map.areaManager.Get<Area_BuildTentRoof>()[intVec3] = true;
-                justRoofedCells.Add(intVec3);
-            }
-        }
-    }
+		var justRoofedCells = new List<IntVec3>();
+		foreach (var intVec3 in cellsToRoof)
+		{
+			if (map.roofGrid.RoofAt(intVec3) == null && !justRoofedCells.Contains(intVec3) &&
+			    !map.areaManager.Get<Area_NoTentRoof>()[intVec3] &&
+			    TentRoofUtility.WithinRangeOfRoofHolder(intVec3, map, true))
+			{
+				map.areaManager.Get<Area_BuildTentRoof>()[intVec3] = true;
+				justRoofedCells.Add(intVec3);
+			}
+		}
+	}
 }
 
 [HarmonyPatch(typeof(AreaManager), "AddStartingAreas")]
 public static class Patch_AreaManager_AddStartingAreas
 {
-    public static void Postfix(List<Area> ___areas, AreaManager __instance)
-    {
-        ___areas.Add(new Area_BuildTentRoof(__instance));
-        ___areas.Add(new Area_NoTentRoof(__instance));
-    }
+	public static void Postfix(List<Area> ___areas, AreaManager __instance)
+	{
+		___areas.Add(new Area_BuildTentRoof(__instance));
+		___areas.Add(new Area_NoTentRoof(__instance));
+	}
 }
 
 [HarmonyPatch(typeof(AreaManager), nameof(AreaManager.ExposeData))]
 public static class Patch_AreaManager_ExposeData
 {
-    public static void Postfix(List<Area> ___areas, AreaManager __instance)
-    {
-        if (Scribe.mode == LoadSaveMode.LoadingVars)
-        {
-            if (___areas.All(area => area is not Area_BuildTentRoof))
-            {
-                var area = new Area_BuildTentRoof(__instance);
-                ___areas.Add(area);
-                area.areaManager = __instance;
-            }
-            if (___areas.All(area => area is not Area_NoTentRoof))
-            {
-                var area = new Area_NoTentRoof(__instance);
-                ___areas.Add(area);
-                area.areaManager = __instance;
-            }
-        }
-    }
+	public static void Postfix(List<Area> ___areas, AreaManager __instance)
+	{
+		if (Scribe.mode == LoadSaveMode.LoadingVars)
+		{
+			if (___areas.All(area => area is not Area_BuildTentRoof))
+			{
+				var area = new Area_BuildTentRoof(__instance);
+				___areas.Add(area);
+				area.areaManager = __instance;
+			}
+
+			if (___areas.All(area => area is not Area_NoTentRoof))
+			{
+				var area = new Area_NoTentRoof(__instance);
+				___areas.Add(area);
+				area.areaManager = __instance;
+			}
+		}
+	}
 }
 
 [HarmonyPatch(typeof(JobDriver_RemoveRoof), "MakeNewToils")]
 public static class Patch_JobDriver_RemoveRoof_MakeNewToils
 {
-    public static void Prefix(JobDriver_RemoveRoof __instance)
-    {
-        __instance.FailOn(() => __instance.pawn.MapHeld.areaManager.Get<Area_NoTentRoof>()[__instance.job.targetA.Cell]);
-    }
+	public static void Prefix(JobDriver_RemoveRoof __instance)
+	{
+		__instance.FailOn(() => __instance.pawn.MapHeld.areaManager.Get<Area_NoTentRoof>()[__instance.job.targetA.Cell]);
+	}
 }
 
 [HarmonyPatch(typeof(WorkGiver_RemoveRoof), "HasJobOnCell")]
 public static class Patch_JobDriver_WorkGiver_RemoveRoof_HasJobOnCell
 {
-    public static void Postfix(ref bool __result, Pawn pawn, IntVec3 c)
-    {
-        __result = __result && c.GetRoof(pawn.Map) != PB_DefOf.PB_TentRoof;
-    }
+	public static void Postfix(ref bool __result, Pawn pawn, IntVec3 c)
+	{
+		__result = __result && c.GetRoof(pawn.Map) != PB_DefOf.PB_TentRoof;
+	}
 }
 
 [HarmonyPatch(typeof(RoofCollapseCellsFinder), nameof(RoofCollapseCellsFinder.ProcessRoofHolderDespawned))]
 public static class Patch_RoofCollapseCellsFinder_ProcessRoofHolderDespawned
 {
-    private static readonly List<IntVec3> tmpCells = [];
+	private static readonly List<IntVec3> tmpCells = [];
 
-    public static void Prefix(IntVec3 position, Map map)
-    {
-        var component = map.GetComponent<TempRoofGrid>();
-        tmpCells.Clear();
-        for (int i = 0; i < RoofCollapseUtility.RoofSupportRadialCellsCount; i++)
-        {
-            IntVec3 intVec = position + GenRadial.RadialPattern[i];
-            if (intVec.InBounds(map) && intVec.GetRoof(map) == PB_DefOf.PB_TentRoof)
-            {
-                map.roofGrid.SetRoof(intVec, component.RoofAt(intVec));
-                tmpCells.Add(intVec);
-            }
-        }
-    }
+	public static void Prefix(IntVec3 position, Map map)
+	{
+		var component = map.GetComponent<TempRoofGrid>();
+		tmpCells.Clear();
+		for (var i = 0; i < RoofCollapseUtility.RoofSupportRadialCellsCount; i++)
+		{
+			var intVec = position + GenRadial.RadialPattern[i];
+			if (intVec.InBounds(map) && intVec.GetRoof(map) == PB_DefOf.PB_TentRoof)
+			{
+				map.roofGrid.SetRoof(intVec, component.RoofAt(intVec));
+				tmpCells.Add(intVec);
+			}
+		}
+	}
 
-    public static void Finalizer(Map map)
-    {
-        var component = map.GetComponent<TempRoofGrid>();
-        var markedToCollapse = map.roofCollapseBuffer.CellsMarkedToCollapse;
-        foreach (var c in tmpCells)
-        {
-            if (markedToCollapse.Contains(c))
-            {
-                component.SetRoof(c, null);
-            }
-            else
-            {
-                map.roofGrid.SetRoof(c, PB_DefOf.PB_TentRoof);
-            }
-        }
-    }
+	public static void Finalizer(Map map)
+	{
+		var component = map.GetComponent<TempRoofGrid>();
+		var markedToCollapse = map.roofCollapseBuffer.CellsMarkedToCollapse;
+		foreach (var c in tmpCells)
+		{
+			if (markedToCollapse.Contains(c))
+			{
+				component.SetRoof(c, null);
+			}
+			else
+			{
+				map.roofGrid.SetRoof(c, PB_DefOf.PB_TentRoof);
+			}
+		}
+	}
 }
